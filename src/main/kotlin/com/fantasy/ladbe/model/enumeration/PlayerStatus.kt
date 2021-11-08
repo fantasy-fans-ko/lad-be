@@ -1,7 +1,8 @@
 package com.fantasy.ladbe.model.enumeration
 
 enum class PlayerStatus {
-    INJ,
-    GTD,
-    HEALTH
+    INJURED,
+    OUT,
+    GAME_TIME_DECISION,
+    HEALTHY
 }

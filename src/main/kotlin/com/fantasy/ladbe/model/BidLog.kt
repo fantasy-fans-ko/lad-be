@@ -10,14 +10,13 @@ import javax.validation.constraints.NotNull
 data class BidLog(
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    var id : Long = 0L,
+    val id : Long = 0L,
     @NotNull @Column(name = "bid_amount")
-    var bidAmount : Int = 0,
-    @ManyToOne(fetch = LAZY) @JoinColumn(name = "users_id", nullable = true)
-    var user : User? = null,
-    @ManyToOne(fetch = LAZY) @JoinColumn(name = "players_id", nullable = true)
-    var player : Player? = null,
-    @OneToOne(mappedBy = "bidLog")
-    var acquisition : PlayerAcquisition? = null,
-
+    val bidAmount : Int = 0,
+    @ManyToOne(fetch = LAZY) @JoinColumn(name = "user_id", nullable = true)
+    val user : User? = null,
+    @ManyToOne(fetch = LAZY) @JoinColumn(name = "player_id", nullable = true)
+    val player : Player? = null,
+    @ManyToOne(fetch = LAZY) @JoinColumn(name = "player_ac_id", nullable = true)
+    val playerAcquisition: PlayerAcquisition? = null,
 )

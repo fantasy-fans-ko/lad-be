@@ -8,17 +8,13 @@ import javax.validation.constraints.NotNull
 @Table(name = "users")
 data class User(
     @Id @GeneratedValue(strategy = IDENTITY)
-    var id: Long = 0L,
-    @NotNull @Column(name = "user_nickname")
-    var userNickname : String = "",
+    val id: Long = 0L,
+    @NotNull @Column(name = "nickname")
+    val nickname : String = "",
     @NotNull @Column(name = "kakao_code")
-    var kakaoCode : String = "",
+    val kakaoCode : String = "",
     @NotNull @Column(name = "kakao_image_path")
-    var kakaoImagePath : String = "",
+    val kakaoImagePath : String = "",
     @NotNull @Column(name = "kakao_email")
-    var kakaoEmail : String = "",
-    @OneToMany(mappedBy = "user")
-    var bidLogs : List<BidLog> = mutableListOf(),
-
-
+    val kakaoEmail : String = "",
     )
