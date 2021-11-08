@@ -11,8 +11,8 @@ data class BidLog(
     @Id
     @GeneratedValue(strategy = IDENTITY)
     val id : Long = 0L,
-    @NotNull @Column(name = "bid_amount")
-    val bidAmount : Int = 0,
+    @NotNull @Column(name = "price")
+    val price : Int = 0,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "user_id", nullable = true)
     val user : User? = null,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "player_id", nullable = true)
