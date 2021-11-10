@@ -1,9 +1,9 @@
 package com.fantasy.ladbe.model
 
 import com.fantasy.ladbe.model.enumeration.PlayerStatus
+import com.fantasy.ladbe.model.enumeration.PlayerStatus.*
 import javax.persistence.*
 import javax.persistence.GenerationType.*
-import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "players")
@@ -11,32 +11,27 @@ data class Player(
     @Id
     @GeneratedValue(strategy = IDENTITY)
     val id : Long = 0L,
-    @NotNull @Column(name = "name")
+    @Column(length = 16)
     val name : String = "",
-    @NotNull @Column(name = "position")
+    @Column(length = 4)
     val position : String = "",
-    @NotNull @Column(name = "three_pct")
-    val three_pct : Float = 0F,
-    @NotNull @Column(name = "ft_pct")
-    val tf_pct : Float = 0F,
-    @NotNull @Column(name = "fg_pct")
-    val fg_pct : Float = 0F,
-    @NotNull @Column(name = "pts")
-    val pts : Int = 0,
-    @NotNull @Column(name = "reb")
-    val reb : Int = 0,
-    @NotNull @Column(name = "ast")
-    val ast : Int = 0,
-    @NotNull @Column(name = "st")
-    val st : Int = 0,
-    @NotNull @Column(name = "blk")
-    val blk : Int = 0,
-    @NotNull @Column(name = "to")
-    val to : Int = 0,
-    @NotNull @Column(name = "td")
-    val td : Int = 0,
-    @NotNull @Column(name = "team")
-    val team : String = "",
-    @NotNull @Column(name = "status") @Enumerated(EnumType.STRING)
-    val status : PlayerStatus = PlayerStatus.HEALTHY,
+    @Column(name = "three_pct")
+    val threePct : Float = 0F,
+    @Column(name = "ft_pct")
+    val tfPct : Float = 0F,
+    @Column(name = "fg_pct")
+    val fgPct : Float = 0F,
+    val points : Int = 0,
+    val rebound : Int = 0,
+    val assist : Int = 0,
+    val steal : Int = 0,
+    val block : Int = 0,
+    @Column(name = "turn_over")
+    val turnOver : Int = 0,
+    @Column(name = "triple_double")
+    val tripleDouble : Int = 0,
+    @Column(name = "team_name")
+    val teamName : String = "",
+    @Enumerated(EnumType.STRING)
+    val status : PlayerStatus = HEALTHY,
     )
