@@ -11,7 +11,7 @@ data class UserState(
     val id : Long = 0L,
     val budget : Int = 0,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "user_id")
-    val user : User? = null,
+    val user : User,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "auction_id")
-    val auction : Auction? = null,
+    val auction : Auction,
 )

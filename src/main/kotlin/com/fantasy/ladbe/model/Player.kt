@@ -22,14 +22,14 @@ data class Player(
     @Column(name = "fg_pct")
     val fgPct : Float = 0F,
     val points : Int = 0,
-    val rebound : Int = 0,
-    val assist : Int = 0,
-    val steal : Int = 0,
-    val block : Int = 0,
-    @Column(name = "turn_over")
-    val turnOver : Int = 0,
-    @Column(name = "triple_double")
-    val tripleDouble : Int = 0,
+    val rebounds : Int = 0,
+    val assists : Int = 0,
+    val steals : Int = 0,
+    val blocks : Int = 0,
+    @Column(name = "turn_overs")
+    val turnOvers : Int = 0,
+    @Column(name = "triple_doubles")
+    val tripleDoubles : Int = 0,
     @Column(name = "team_name")
     val teamName : String = "",
     @Enumerated(EnumType.STRING)

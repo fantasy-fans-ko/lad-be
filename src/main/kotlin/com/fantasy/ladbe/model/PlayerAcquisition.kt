@@ -11,5 +11,5 @@ data class PlayerAcquisition(
     @Column(name = "pick_number")
     val pickNumber : Int = 0,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "action_id")
-    val auction : Auction? = null,
+    val auction : Auction,
 )
