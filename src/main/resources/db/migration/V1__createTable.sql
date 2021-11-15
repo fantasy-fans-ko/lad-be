@@ -1,7 +1,6 @@
 CREATE TABLE `users`
 (
     `id`               bigint       NOT NULL AUTO_INCREMENT COMMENT '사용자 id',
-    `nickname`         varchar(16)  NOT NULL COMMENT '사용자 닉네임',
     `kakao_code`       varchar(255) NOT NULL COMMENT '카카오에서 받은 사용자 고유번호',
     `kakao_image_path` varchar(255) NOT NULL COMMENT '카카오에서 받은 프로필 사진 경로',
     `kakao_email`      varchar(49)  NOT NULL COMMENT '카카오에서 받은 email',
@@ -67,10 +66,11 @@ CREATE TABLE `bid_logs`
   DEFAULT CHARACTER SET = utf8mb4
     COMMENT '입찰 정보';
 
-CREATE TABLE `user_states`
+CREATE TABLE `bidders`
 (
-    `id`         bigint NOT NULL AUTO_INCREMENT COMMENT '사용자 상태 id',
-    `budget`     int    NOT NULL COMMENT '가지고 있는 금액',
+    `id`         bigint      NOT NULL AUTO_INCREMENT COMMENT '사용자 상태 id',
+    `nickname`   varchar(16) NOT NULL COMMENT '입찰자 닉네임',
+    `budget`     int         NOT NULL COMMENT '가지고 있는 금액',
     `user_id`    bigint DEFAULT NULL COMMENT '사용자 id',
     `auction_id` bigint DEFAULT NULL COMMENT '옥션 id',
     PRIMARY KEY (`id`),
@@ -78,4 +78,4 @@ CREATE TABLE `user_states`
     FOREIGN KEY (`auction_id`) REFERENCES auctions (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '사용자 상태';
+    COMMENT '입찰자 정보';
