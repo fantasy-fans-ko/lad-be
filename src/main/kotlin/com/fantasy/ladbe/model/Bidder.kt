@@ -6,9 +6,11 @@ import javax.persistence.GenerationType.*
 
 @Entity
 @Table(name = "user_states")
-data class UserState(
+data class Bidder(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id : Long = 0L,
+    @Column(length = 16)
+    val nickname : String = "",
     val budget : Int = 0,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "user_id")
     val user : User,
