@@ -18,7 +18,7 @@ data class Player(
     @Column(name = "three_pct")
     val threePct : Float = 0F,
     @Column(name = "ft_pct")
-    val tfPct : Float = 0F,
+    val ftPct : Float = 0F,
     @Column(name = "fg_pct")
     val fgPct : Float = 0F,
     val points : Int = 0,
@@ -34,4 +34,12 @@ data class Player(
     val teamName : String = "",
     @Enumerated(EnumType.STRING)
     val status : PlayerStatus = HEALTHY,
-    )
+    @Column(name = "image_url")
+    val imageUrl : String = "",
+    @Column(name = "rank_pre")
+    val rankPre : Int = 0,
+    @Column(name = "rank_current")
+    val rankCurrent : Int = 0,
+    ){
+
+}
