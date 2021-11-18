@@ -16,9 +16,8 @@ class ScrapingController {
     private lateinit var scrapingService : ScrapingService
 
     @GetMapping("/players")
-    fun scrapingFromHtml() : ResponseEntity<Void> {
+    fun scrapingFromHtml() : ResponseEntity<Unit> {
         scrapingService.iterativeApproachToHtml()
-
-        return ResponseEntity<Void>(OK)
+        return ResponseEntity<Unit>(OK)
     }
 }
