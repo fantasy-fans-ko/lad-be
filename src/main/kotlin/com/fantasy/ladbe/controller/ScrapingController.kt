@@ -22,4 +22,3 @@ class ScrapingController {
         return ResponseEntity<Void>(OK)
     }
 }
-g
