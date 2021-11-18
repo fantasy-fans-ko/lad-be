@@ -5,7 +5,7 @@ import javax.persistence.FetchType.*
 import javax.persistence.GenerationType.*
 
 @Entity
-@Table(name = "bidders")
+@Table(name = "bidder")
 data class Bidder(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id : Long = 0L,
