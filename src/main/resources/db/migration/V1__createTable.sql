@@ -24,7 +24,7 @@ CREATE TABLE `players`
     `assists`        int         NOT NULL COMMENT '어시스트',
     `steals`         int         NOT NULL COMMENT '스틸',
     `blocks`         int         NOT NULL COMMENT '블록',
-    `turn_overs`      int         NOT NULL COMMENT '실책',
+    `turn_overs`     int         NOT NULL COMMENT '실책',
     `triple_doubles` int         NOT NULL COMMENT '트리플 더블',
     `team_name`      varchar(9)  NOT NULL COMMENT '소속 팀 이름',
     `status`         varchar(25) NOT NULL COMMENT '선수 상태',
