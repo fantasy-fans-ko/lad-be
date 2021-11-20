@@ -1,5 +1,7 @@
 package com.fantasy.ladbe.oauth.handler
 
+import com.fantasy.ladbe.api.repository.UserRepository
+import com.fantasy.ladbe.model.User
 import com.fantasy.ladbe.oauth.mapper.UserRequestMapper
 import com.fantasy.ladbe.oauth.service.TokenService
 import com.fantasy.ladbe.oauth.token.AuthToken
@@ -20,6 +22,7 @@ class OAuth2SuccessHandler(
     private val tokenService: TokenService,
     private val userRequestMapper: UserRequestMapper,
     private val objectMapper: ObjectMapper,
+    private val userRepository: UserRepository
 ) : AuthenticationSuccessHandler {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -35,6 +38,23 @@ class OAuth2SuccessHandler(
 
         val token: AuthToken = tokenService.generateToken(userDto.email, "USER")
         log.info("{}", token)
+
+
+
+
+        // 성공 유저 디비 저장
+        val user = userRepository.findByKakaoEmail(userDto.email) ?: userRepository.save(
+            User(
+                nickname = userDto.name,
+                kakaoEmail = userDto.email,
+                kakaoImagePath = userDto.pictue,
+                kakaoCode = "SampleCode"
+            ))
+        user.update(nickname = userDto.name, picture = userDto.pictue)
+
+
+
+
 
         writeTokenResponse(response, token)
 

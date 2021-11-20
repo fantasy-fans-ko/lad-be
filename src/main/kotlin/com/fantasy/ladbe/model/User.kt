@@ -9,11 +9,19 @@ data class User(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L,
     @Column(length = 16)
-    val nickname : String = "",
+    var nickname : String = "",
     @Column(name = "kakao_code", length = 256)
     val kakaoCode : String = "",
     @Column(name = "kakao_image_path", length = 256)
-    val kakaoImagePath : String = "",
+    var kakaoImagePath : String = "",
     @Column(name = "kakao_email", length = 49)
     val kakaoEmail : String = "",
-    )
+    ){
+
+    fun update(nickname: String,picture: String) : User{
+        this.nickname = nickname
+        this.kakaoImagePath = picture
+
+        return this
+    }
+}

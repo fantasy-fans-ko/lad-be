@@ -27,8 +27,7 @@ class CustomOAuth2UserService : OAuth2UserService<OAuth2UserRequest, OAuth2User>
         val userNameAttributeName =
             userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
 
-        val oAuth2Attribute: OAuth2Attribute =
-            OAuth2Attribute.Companion.of(registrationId, userNameAttributeName, oAuth2User.attributes)
+        val oAuth2Attribute: OAuth2Attribute = OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.attributes)
 
         log.info("{}", oAuth2Attribute)
 
