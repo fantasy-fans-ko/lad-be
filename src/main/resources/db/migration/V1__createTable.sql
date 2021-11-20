@@ -6,14 +6,16 @@ CREATE TABLE `users`
     `kakao_email`      varchar(49)  NOT NULL COMMENT '카카오에서 받은 email',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '사용자 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '사용자 정보';
 
 CREATE TABLE `players`
 (
     `id`             bigint      NOT NULL AUTO_INCREMENT COMMENT '선수 id',
-    `name`           varchar(16) NOT NULL COMMENT '선수 이름',
-    `position`       varchar(4)  NOT NULL COMMENT '선수 포지션',
+    `name`           varchar(25) NOT NULL COMMENT '선수 이름',
+    `position`       varchar(9)  NOT NULL COMMENT '선수 포지션',
     `three_pct`      float       NOT NULL COMMENT '3점 슛 성공률',
     `ft_pct`         float       NOT NULL COMMENT '자유투 성공률',
     `fg_pct`         float       NOT NULL COMMENT '야투 성공률',
@@ -22,14 +24,16 @@ CREATE TABLE `players`
     `assists`        int         NOT NULL COMMENT '어시스트',
     `steals`         int         NOT NULL COMMENT '스틸',
     `blocks`         int         NOT NULL COMMENT '블록',
-    `turnovers`      int         NOT NULL COMMENT '실책',
+    `turn_overs`     int         NOT NULL COMMENT '실책',
     `triple_doubles` int         NOT NULL COMMENT '트리플 더블',
-    `team`           varchar(9)  NOT NULL COMMENT '소속 팀 이름',
-    `status`         varchar(9)  NOT NULL COMMENT '선수 상태',
+    `team_name`      varchar(9)  NOT NULL COMMENT '소속 팀 이름',
+    `status`         varchar(25) NOT NULL COMMENT '선수 상태',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '선수 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '선수 정보';
 
 CREATE TABLE `auctions`
 (
@@ -37,8 +41,10 @@ CREATE TABLE `auctions`
     `name` varchar(36) DEFAULT NULL COMMENT '옥션 이름',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '옥션 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '옥션 정보';
 
 CREATE TABLE `player_acquisitions`
 (
@@ -48,8 +54,10 @@ CREATE TABLE `player_acquisitions`
     PRIMARY KEY (`id`),
     FOREIGN KEY (`auction_id`) REFERENCES auctions (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '낙찰 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '낙찰 정보';
 
 CREATE TABLE `bid_logs`
 (
@@ -63,13 +71,15 @@ CREATE TABLE `bid_logs`
     FOREIGN KEY (`player_id`) REFERENCES players (`id`),
     FOREIGN KEY (`player_acquisition_id`) REFERENCES player_acquisitions (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '입찰 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '입찰 정보';
 
 CREATE TABLE `bidders`
 (
     `id`         bigint      NOT NULL AUTO_INCREMENT COMMENT '사용자 상태 id',
-    `nickname`   varchar(16) NOT NULL COMMENT '입찰자 닉네임',
+    `nickname`   varchar(25) NOT NULL COMMENT '입찰자 닉네임',
     `budget`     int         NOT NULL COMMENT '가지고 있는 금액',
     `user_id`    bigint DEFAULT NULL COMMENT '사용자 id',
     `auction_id` bigint DEFAULT NULL COMMENT '옥션 id',
@@ -77,5 +87,7 @@ CREATE TABLE `bidders`
     FOREIGN KEY (`user_id`) REFERENCES users (`id`),
     FOREIGN KEY (`auction_id`) REFERENCES auctions (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARACTER SET = utf8mb4
-    COMMENT '입찰자 정보';
+  DEFAULT CHARACTER
+      SET = utf8mb4
+    COMMENT
+        '입찰자 정보';

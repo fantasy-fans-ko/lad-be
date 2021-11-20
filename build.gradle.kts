@@ -24,6 +24,8 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    implementation("org.jsoup:jsoup:1.13.1")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
