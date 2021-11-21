@@ -35,7 +35,7 @@ internal class PlayerRepositoryTest @Autowired constructor(
 
 
         //then
-        assertEquals(list.size,2)
+        assertEquals(list?.size,2)
 
     }
 }
