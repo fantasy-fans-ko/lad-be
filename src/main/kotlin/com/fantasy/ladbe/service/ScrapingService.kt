@@ -1,0 +1,109 @@
+package com.fantasy.ladbe.service
+
+import com.fantasy.ladbe.model.Player
+import com.fantasy.ladbe.model.enumeration.PlayerStatus
+import com.fantasy.ladbe.repository.PlayerRepository
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.Resource
+import org.springframework.stereotype.Service
+
+const val DEFAULT_HTML_URL = "http://localhost:8080/htmlResources/"
+const val DEFAULT_IMAGE_URL = "http://localhost:8080/player/"
+
+//const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
+const val DEFAULT_IMAGE_RESOURCES_PATH = "playerImages/"
+
+
+@Service
+class ScrapingService {
+
+    @Autowired
+    private lateinit var playerRepository: PlayerRepository
+
+    @Value("classpath:/htmlResources/*.html")
+    private lateinit var htmls: Array<Resource>
+
+    fun iterativeApproachToHtml() {
+        for (html: Resource in htmls) { // 여러 html들 중에서 하나씩 접근
+            val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename).get() // 해당 html에 접근한다.
+            val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
+
+            savePlayer(elements)
+        }
+    }
+
+    private fun savePlayer(elements: Elements) {
+        for (element: Element in elements) {
+            val playerName: String = element.select("td.player a.Nowrap").text() // 선수 이름
+            val status : String = element.select("td.player abbr.F-injury").text() // 선수 상태
+            // 선수의 팀과 포지션
+            val teamAndPosition: List<String> = element.select("td.player span.Fz-xxs")
+                .text().split(" ").toList()
+            val imageUrl = filterSameName(playerName, teamAndPosition.elementAt(0)) // 동명이인 체크
+            // 스탯의 값을 분할한 뒤, 값이 없는 경우(-) 0으로 변경
+            val statList: List<String> = element.select("td.Ta-end").text().split(" ")
+                .map { str: String -> str.replace("-", "0") }
+
+            val player = Player(
+                name = playerName,
+                teamName = teamAndPosition.elementAt(0),
+                position = teamAndPosition.elementAt(2),
+                rankPre = statList.elementAt(1).toInt(),
+                rankCurrent = statList.elementAt(2).toInt(),
+                fgPct = statList.elementAt(6).toFloat(),
+                ftPct = statList.elementAt(8).toFloat(),
+                threePct = statList.elementAt(10).toFloat(),
+                points = statList.elementAt(11).toInt(),
+                rebounds = statList.elementAt(12).toInt(),
+                assists = statList.elementAt(13).toInt(),
+                steals = statList.elementAt(14).toInt(),
+                blocks = statList.elementAt(15).toInt(),
+                turnOvers = statList.elementAt(16).toInt(),
+                tripleDoubles = statList.elementAt(17).toInt(),
+                status = playerStatusOf(status),
+                imageUrl = "$DEFAULT_IMAGE_URL$imageUrl.png"
+            )
+            playerRepository.save(player);
+        }
+    }
+
+
+    // 동명이인 확인
+    private fun filterSameName(playerName: String, teamName: String): String {
+        /**
+         * 파일명을 접근할 수 있는 이름으로 변경
+         * Example) A. Davis -> A_Davis
+         **/
+        val afterPlayerName = playerName.replace(" ", "_").replace(".", "")
+
+        // local에 접근
+//        val file = File("$DEFAULT_IMAGE_LOCAL_PATH$afterPlayerName.png")
+//        if (!file.exists()) { // 동명이인이 있다면
+//            return afterPlayerName + "_" + teamName // 뒤에 팀 이름까지 붙여줌
+//        }
+
+        // class resource 파일에 접근
+        val resource = ClassPathResource("$DEFAULT_IMAGE_RESOURCES_PATH$afterPlayerName.png")
+
+        if (!resource.exists()) // 동명이인이 있다면
+            return afterPlayerName + "_" + teamName // 선수이름 뒤에 팀 이름까지 붙여줌
+
+        return afterPlayerName // 아니라면 선수이름만 반환
+    }
+
+    // 선수의 상태를 확인하고 반환
+    private fun playerStatusOf(status: String) =
+        when (status) {
+            "GTD" -> PlayerStatus.GAME_TIME_DECISION
+            "O" -> PlayerStatus.OUT
+            "INJ" -> PlayerStatus.INJURED
+            else -> PlayerStatus.HEALTHY
+        }
+
+}
