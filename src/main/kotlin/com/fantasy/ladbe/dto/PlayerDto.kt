@@ -8,11 +8,7 @@ import com.querydsl.core.annotations.QueryProjection
 
 class PlayerDto {
     class Request {
-        data class PlayerPage(
-            val pageable: PageParam,
-            ) {
-
-        }
+        data class PlayerPage(val pageable: PageParam)
 
     }
 

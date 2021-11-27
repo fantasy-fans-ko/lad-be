@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.common.dto
 
 import org.springframework.data.domain.Page
-import java.io.Serializable
 
 class PageDto(
     page: Page<*>,
