@@ -1,0 +1,20 @@
+package com.fantasy.ladbe.repository.custom.impl
+
+import com.fantasy.ladbe.model.QUser.user
+import com.fantasy.ladbe.model.User
+import com.fantasy.ladbe.repository.custom.UserCustomRepository
+import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
+import javax.annotation.Resource
+
+class UserCustomRepositoryImpl(
+    @Autowired
+    @Resource(name = "jpaQueryFactory")
+    val queryFactory: JPAQueryFactory,
+) : QuerydslRepositorySupport(User::class.java), UserCustomRepository {
+
+    override fun selectById(id: Long): User? {
+        return queryFactory.selectFrom(user).where(user.id.eq(id)).fetchOne()
+    }
+}
