@@ -26,8 +26,6 @@ data class CommonApiResponse(
         fun success(any: Any): CommonApiResponse {
             return CommonApiResponse(code = OK_CODE, message = OK_MESSAGE, data = any)
         }
-
-
     }
 
 }

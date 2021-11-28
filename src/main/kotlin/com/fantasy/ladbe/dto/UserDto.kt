@@ -18,7 +18,6 @@ class UserDto {
     class Response {
         data class UserDetail(
             var id: Long? = null,
-            var nickname: String? = null,
             var kakaoCode: String? = null,
             var kakaoImagePath: String? = null,
             var kakaoEmail: String? = null,

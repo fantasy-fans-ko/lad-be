@@ -1,11 +1,8 @@
 package com.fantasy.ladbe.controller
 
-import com.fantasy.ladbe.common.dto.PageDto
 import com.fantasy.ladbe.common.web.CommonApiResponse
-import com.fantasy.ladbe.dto.PlayerDto
 import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.service.UserService
-import org.springframework.util.ObjectUtils
 import org.springframework.web.bind.annotation.*
 
 
@@ -15,9 +12,9 @@ class UserController(
     val userService: UserService
 ) {
     @GetMapping
-    fun getUser(@RequestParam id: Long?): CommonApiResponse? {
+    fun getUser(@RequestParam id: Long): CommonApiResponse? {
 
-        return id?.let {
+        return id.let {
             userService.readOne(id)
         }?.let {
             CommonApiResponse.success(it)

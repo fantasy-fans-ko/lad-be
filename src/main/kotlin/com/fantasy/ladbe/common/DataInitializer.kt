@@ -19,11 +19,17 @@ class DataInitializer
     val playerRepository: PlayerRepository,
     val userRepository: UserRepository,
     val scrapingService: ScrapingService,
-) : CommandLineRunner {
+    @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
+
+    ) : CommandLineRunner {
 
     @Transactional
     override fun run(vararg args: String?) {
-        createTestUser()
+        if (Arrays.stream(env.activeProfiles).anyMatch("local"::equals) && ddl == "none"){
+            createTestUser()
+            createPlayer()
+        }
+
 
     }
 
@@ -44,7 +50,7 @@ class DataInitializer
     }
 
     private fun createPlayer() {
-        if (ObjectUtils.isEmpty(userRepository.count() == 0L)) {
+        if (ObjectUtils.isEmpty(playerRepository.findById(1L))) {
             scrapingService.iterativeApproachToHtml()
         }
     }

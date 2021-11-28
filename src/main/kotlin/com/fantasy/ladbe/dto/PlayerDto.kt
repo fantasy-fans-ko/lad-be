@@ -37,33 +37,29 @@ class PlayerDto {
 
 
             fun entityToDto(player: Player): PlayerDetail {
-                return PlayerDetail().apply {
-                    this.id = player.id
-                    this.name = player.name
-                    this.position = player.position
-                    this.threePct = player.threePct
-                    this.ftPct = player.ftPct
-                    this.fgPct = player.fgPct
-                    this.points = player.points
-                    this.rebounds = player.rebounds
-                    this.assists = player.assists
-                    this.steals = player.steals
-                    this.blocks = player.blocks
-                    this.turnOvers = player.turnOvers
-                    this.tripleDoubles = player.tripleDoubles
-                    this.teamName = player.teamName
-                    this.status = player.status
-                    this.imageUrl = player.imageUrl
-                    this.rankPre = player.rankPre
-                    this.rankCurrent = player.rankCurrent
-                }
-
+                return PlayerDetail(
+                    id = player.id,
+                    name = player.name,
+                    position = player.position,
+                    threePct = player.threePct,
+                    ftPct = player.ftPct,
+                    fgPct = player.fgPct,
+                    points = player.points,
+                    rebounds = player.rebounds,
+                    assists = player.assists,
+                    steals = player.steals,
+                    blocks = player.blocks,
+                    turnOvers = player.turnOvers,
+                    tripleDoubles = player.tripleDoubles,
+                    teamName = player.teamName,
+                    status = player.status,
+                    imageUrl = player.imageUrl,
+                    rankPre = player.rankPre,
+                    rankCurrent = player.rankCurrent)
             }
 
         }
 
-
     }
-
-
 }
+
