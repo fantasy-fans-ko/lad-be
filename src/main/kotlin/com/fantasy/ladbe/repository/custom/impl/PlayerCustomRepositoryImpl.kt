@@ -26,51 +26,34 @@ class PlayerCustomRepositoryImpl(
 ) : QuerydslRepositorySupport(Player::class.java), PlayerCustomRepository{
 
     override fun selectById(id: Long): Player? {
-        return queryFactory.selectFrom(player).where(player.id.eq(id)).fetchOne()
+        return queryFactory
+            .selectFrom(player)
+            .where(player.id.eq(id))
+            .fetchOne()
     }
 
     override fun selectAll(): MutableList<Player>? {
-        return queryFactory.selectFrom(player).fetch()
+        return queryFactory
+            .selectFrom(player)
+            .fetch()
     }
 
-    override fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail>? {
+    override fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage): Page<Player>? {
 
         val pageRequest: PageRequest = playerPage.pageable.getPageRequest()
 
-        val queryResults = queryFactory.select(
-            QPlayerDto_Response_PlayerDetail(
-            player.id,
-            player.name,
-            player.position,
-            player.threePct,
-            player.ftPct,
-            player.fgPct,
-            player.points,
-            player.rebounds,
-            player.assists,
-            player.steals,
-            player.blocks,
-            player.turnOvers,
-            player.tripleDoubles,
-            player.teamName,
-            player.status,
-            player.imageUrl,
-            player.rankPre,
-            player.rankCurrent
-        ))
-            .from(player)
+        val queryResults = queryFactory
+            .selectFrom(player)
             .where()
             .orderBy(*getOrderSpecifier(pageRequest.sort).toTypedArray())
             .offset(pageRequest.offset)
             .limit(pageRequest.pageSize.toLong())
             .fetchResults()
 
-        val content: List<PlayerDto.Response.PlayerDetail> = queryResults.results
+        val content: MutableList<Player> = queryResults.results
         val total = queryResults.total
 
         return PageImpl(content,pageRequest,total)
-
-//
 
 
     }

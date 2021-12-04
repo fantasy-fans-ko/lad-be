@@ -10,5 +10,5 @@ interface PlayerCustomRepository {
 
     fun selectAll(): List<Player>?
 
-    fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage) : Page<PlayerDto.Response.PlayerDetail>?
+    fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage) : Page<Player>?
 }

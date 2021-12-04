@@ -5,6 +5,8 @@ import com.fantasy.ladbe.common.web.CommonApiResponse
 import com.fantasy.ladbe.common.web.CommonApiResponse.Companion.success
 import com.fantasy.ladbe.dto.PlayerDto
 import com.fantasy.ladbe.service.PlayerService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -15,27 +17,24 @@ class PlayerController(
 ) {
 
     @GetMapping
-    fun getPlayer(@RequestParam(required = true) id: Long?): CommonApiResponse? {
-
-        return id?.let {
-            playerService.readOne(id)
-        }?.let {
-            success(it)
-        }
-
+    fun getPlayer(@RequestParam id: Long): ResponseEntity<CommonApiResponse> {
+        val body = playerService.readOne(id)?.let { success(it) }
+        return ResponseEntity(body, HttpStatus.OK)
     }
 
     @GetMapping("/all")
-    fun getAllPlayers(): CommonApiResponse? {
-        val playerList = playerService.readAll()
-        return playerList?.let { success(it) }
+    fun getAllPlayers(): ResponseEntity<CommonApiResponse> {
+        val body = playerService.readAll()?.let { success(it) }
+        return ResponseEntity(body, HttpStatus.OK)
     }
 
     @GetMapping("/page")
-    fun getPlayersByPaging(@Valid @RequestBody request: PlayerDto.Request.PlayerPage): CommonApiResponse? {
-        val result = playerService.readPage(request)
-        val pageDto = PageDto(page = result, content = result.content)
-        return success(pageDto)
+    fun getPlayersByPaging(@Valid @RequestBody request: PlayerDto.Request.PlayerPage): ResponseEntity<CommonApiResponse> {
+        val body = playerService.readPage(request)?.let {
+            val pageDto = PageDto(page = it, content = it.content)
+            success(pageDto)
+        }
+        return ResponseEntity(body, HttpStatus.OK)
 
     }
 }

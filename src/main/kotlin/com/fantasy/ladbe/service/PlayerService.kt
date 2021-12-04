@@ -22,8 +22,10 @@ class PlayerService(
         }?.toMutableList()
     }
 
-    fun readPage(request: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail> {
-        return playerRepository.selectPlayersByPaging(request) ?: throw Exception()
+    fun readPage(request: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail>? {
+        return playerRepository.selectPlayersByPaging(request)?.map {
+            PlayerDto.Response.PlayerDetail().entityToDto(it)
+        }
     }
 
 
