@@ -1,8 +1,8 @@
-package com.fantasy.ladbe.handler
+package com.fantasy.ladbe.handler.advice
 
-import com.fantasy.ladbe.common.web.Error
-import com.fantasy.ladbe.common.web.ErrorResponse
-import com.fantasy.ladbe.common.web.Exceptions.SERVICE_ERROR
+import com.fantasy.ladbe.handler.exception.Error
+import com.fantasy.ladbe.handler.exception.ErrorResponse
+import com.fantasy.ladbe.handler.exception.Exceptions.SERVICE_ERROR
 import com.fantasy.ladbe.controller.PlayerController
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,8 +1,8 @@
-package com.fantasy.ladbe.common.web
+package com.fantasy.ladbe.handler.exception
 
 import java.time.LocalDateTime
 
-data class ErrorResponse(
+data class ErrorResponse (
     var resultCode: String? = null,
     var httpStatus: String? = null,
     var httpMethod: String? = null,
