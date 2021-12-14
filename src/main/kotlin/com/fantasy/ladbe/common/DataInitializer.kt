@@ -20,7 +20,6 @@ class DataInitializer
     val userRepository: UserRepository,
     val scrapingService: ScrapingService,
     @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
-
     ) : CommandLineRunner {
 
     @Transactional
@@ -29,19 +28,17 @@ class DataInitializer
             createTestUser()
             createPlayer()
         }
-
-
     }
 
 
     private fun createTestUser() {
         if (ObjectUtils.isEmpty(userRepository.findById(1L))) {
             val userList = listOf(
-                User(1, "FAKE_CODE1", "FAKE_IMG1", "FAKE_EMAIL1"),
-                User(2, "FAKE_CODE2", "FAKE_IMG2", "FAKE_EMAIL2"),
-                User(3, "FAKE_CODE3", "FAKE_IMG3", "FAKE_EMAIL3"),
-                User(4, "FAKE_CODE4", "FAKE_IMG4", "FAKE_EMAIL4"),
-                User(5, "FAKE_CODE5", "FAKE_IMG5", "FAKE_EMAIL5"),
+                User(1, 1, "FAKE_IMG1", "FAKE_EMAIL1"),
+                User(2, 2, "FAKE_IMG2", "FAKE_EMAIL2"),
+                User(3, 3, "FAKE_IMG3", "FAKE_EMAIL3"),
+                User(4, 4, "FAKE_IMG4", "FAKE_EMAIL4"),
+                User(5, 5, "FAKE_IMG5", "FAKE_EMAIL5"),
             )
 
             userRepository.saveAll(userList)

@@ -9,8 +9,4 @@ import javax.servlet.http.HttpServletRequest
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
-    @ExceptionHandler(UsernameNotFoundException::class)
-    fun usernameNotFoundException(e: MethodArgumentNotValidException, request: HttpServletRequest) {
-        println("usernameException")
-    }
 }

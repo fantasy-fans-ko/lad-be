@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/scraping")
-class ScrapingController {
-
-    @Autowired
-    private lateinit var scrapingService : ScrapingService
+class ScrapingController(
+    val scrapingService: ScrapingService
+) {
 
     @GetMapping("/players")
     fun scrapingFromHtml() : ResponseEntity<Unit> {

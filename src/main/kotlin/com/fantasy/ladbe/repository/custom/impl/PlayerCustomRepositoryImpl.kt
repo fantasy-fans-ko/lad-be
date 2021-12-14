@@ -54,8 +54,6 @@ class PlayerCustomRepositoryImpl(
         val total = queryResults.total
 
         return PageImpl(content,pageRequest,total)
-
-
     }
 
     fun getOrderSpecifier(sort :Sort): List<OrderSpecifier<*>> {
@@ -83,7 +81,6 @@ class PlayerCustomRepositoryImpl(
                     "rankCurrent" -> orders.add(OrderSpecifier(direction, player.rankCurrent))
                     else -> continue
                 }
-
             }
         }
         return orders
