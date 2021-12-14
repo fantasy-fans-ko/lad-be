@@ -23,4 +23,11 @@ class UserCustomRepositoryImpl(
             .where(user.id.eq(id))
             .fetchOne()
     }
+
+    override fun selectByKakaoCode(kakaoCode : Long): User? {
+        return queryFactory
+            .selectFrom(user)
+            .where(user.kakaoCode.eq(kakaoCode))
+            .fetchOne()
+    }
 }

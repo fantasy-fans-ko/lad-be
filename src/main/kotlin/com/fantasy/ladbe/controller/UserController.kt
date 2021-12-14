@@ -24,11 +24,4 @@ class UserController(
         val body = userService.readAll()?.let { CommonApiResponse.success(it) }
         return ResponseEntity(body, HttpStatus.OK)
     }
-
-    @PostMapping
-    fun createUser(@RequestBody request: UserDto.Request.CreateUser): ResponseEntity<CommonApiResponse> {
-        userService.create(request)
-        return ResponseEntity(CommonApiResponse.success(), HttpStatus.OK)
-    }
-
 }
