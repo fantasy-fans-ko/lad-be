@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(val userRepository: UserRepository) {
 
     /**
-     * 사용자의 정보를 update 해주는 메소드
+     * 사용자의 정보를 업데이트 또는 회원가입을 해주는 메소드
      * param :  kakaoCode - 사용자 고유 값
      *          imagePath - 카카오 정보에 담겨져있는 프로필 사진의 경로
      *          email - 카카오 정보에 담겨있는 사용자 이메일
-     * return : findOneByKakaoCode 메소드에서 반환값이 null이 아니라면, User Entity를 copy하고 변경 처리를 한다.
-     *          null이 반환(사용자가 없음)이 된다면, 새로운 User Entity를 생성한다.
-     *          최종적으로 생성된 user를 DB에 저장하고 dto로 변환하고 반환한다.
+     * return : findOneByKakaoCode 메소드에서 반환값이 null이 아니라면, 업데이트를 한다.
+     *          null이 반환(사용자가 없음)이 된다면, 회원가입을 한다.
+     *          마지막으로 Dto로 변환하여 반환한다.
      */
     @Transactional
     fun updateOrSave(

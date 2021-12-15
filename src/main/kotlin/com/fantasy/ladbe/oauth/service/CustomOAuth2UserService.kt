@@ -1,6 +1,5 @@
 package com.fantasy.ladbe.oauth.service
 
-import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.oauth.dto.OAuthAttributes
 
 import com.fantasy.ladbe.oauth.dto.OAuthAttributes.Companion.of
@@ -25,6 +24,7 @@ class CustomOAuth2UserService(
             .let {
                 it.loadUser(userRequest)
             }
+
         val registerId: String =
             userRequest.clientRegistration.registrationId // 서비스의 이름을 명시 ex) kakao, google, github 등등..
         val usernameAttributeKey: String = userRequest.clientRegistration.providerDetails
@@ -32,16 +32,13 @@ class CustomOAuth2UserService(
         val oAuthAttributes: OAuthAttributes =
             of(registerId, usernameAttributeKey, oAuth2User.attributes) // 각 소셜 로그인을 통해 받은 정보
 
-        val collection : Collection<out GrantedAuthority> = AuthorityUtils.createAuthorityList("ROLE_USER") // 권한 주입
-        return DefaultOAuth2User(collection, oAuthAttributes.attributes, oAuthAttributes.nameAttributeKey)
-
-//        userService.updateOrSave(
-//            kakaoCode = oAuthAttributes.code,
-//            email = oAuthAttributes.email,
-//            imagePath = oAuthAttributes.imagePath
-//        )?.let {
-//            val collection : Collection<out GrantedAuthority> = AuthorityUtils.createAuthorityList("ROLE_USER") // 권한 주입
-//            return DefaultOAuth2User(collection, oAuthAttributes.attributes, oAuthAttributes.nameAttributeKey)
-//        }
+        userService.updateOrSave(
+            kakaoCode = oAuthAttributes.code,
+            email = oAuthAttributes.email,
+            imagePath = oAuthAttributes.imagePath
+        ).let {
+            val collection : Collection<out GrantedAuthority> = AuthorityUtils.createAuthorityList("ROLE_USER") // 권한 주입
+            return DefaultOAuth2User(collection, oAuthAttributes.attributes, oAuthAttributes.nameAttributeKey)
+        }
     }
 }

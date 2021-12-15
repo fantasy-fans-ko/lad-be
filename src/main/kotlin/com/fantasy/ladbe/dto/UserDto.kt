@@ -31,7 +31,8 @@ class UserDto {
         }
 
         /**
-         * 로그인에 성공했을 때, 로그인한 사용자에 대한 정보를 원할하게 사용하기 위한 Dto
+         * OAuth2 로그인에 성공했을 때,
+         * 로그인한 사용자에 대한 정보를 원할하게 사용하기 위한 Dto
          */
         data class OAuth2UserDetail(
             val kakaoImagePath: String = "",

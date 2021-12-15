@@ -1,5 +1,14 @@
 package com.fantasy.ladbe.oauth.dto
 
+/**
+ * OAuth2 로그인을 했을 때, 해당 서버에서 받아와 매핑할 객체
+ * attributes : 서버에서 받아온 사용자 정보들
+ * nameAttributeKey : 소셜 로그인에서 사용하는 기본 키에 대한 정보
+ * name : 사용자 이름
+ * email : 사용자 이메일
+ * imagePath : 사용자 프사 경로
+ * code : 카카오 서버에서 주어지는 사용자 고유 번호
+ */
 class OAuthAttributes(
     val attributes: Map<String, Any> = emptyMap(),
     val nameAttributeKey: String = "",
@@ -16,7 +25,7 @@ class OAuthAttributes(
          *         usernameAttributeKey - 사용자의 Attribute의 Key의 이름 (kakao = id)
          *         attributes - 사용자의 정보를 받아올 정보
          * return : registerId에 의해 각 소셜 로그인 함수로 접근.
-         *          registerId의 값이 없다면 Null을 반환
+         *          registerId의 값이 없다면 빈 객체를 반환
          */
         fun of(
             registerId: String,
