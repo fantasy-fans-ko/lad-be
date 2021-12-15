@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController
 class ScrapingController(
     val scrapingService: ScrapingService
 ) {
-
     @GetMapping("/players")
     fun scrapingFromHtml() : ResponseEntity<Unit> {
         scrapingService.iterativeApproachToHtml()

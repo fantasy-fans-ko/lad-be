@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.oauth.handler
 
 import com.fantasy.ladbe.common.log.logger
-import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.core.AuthenticationException

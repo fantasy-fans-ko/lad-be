@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.controller
 
 import com.fantasy.ladbe.common.web.CommonApiResponse
-import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

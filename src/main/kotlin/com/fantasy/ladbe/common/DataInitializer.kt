@@ -30,7 +30,6 @@ class DataInitializer
         }
     }
 
-
     private fun createTestUser() {
         if (ObjectUtils.isEmpty(userRepository.findById(1L))) {
             val userList = listOf(
@@ -40,9 +39,7 @@ class DataInitializer
                 User(4, 4, "FAKE_IMG4", "FAKE_EMAIL4"),
                 User(5, 5, "FAKE_IMG5", "FAKE_EMAIL5"),
             )
-
             userRepository.saveAll(userList)
-
         }
     }
 
