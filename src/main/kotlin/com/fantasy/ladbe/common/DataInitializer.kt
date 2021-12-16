@@ -50,7 +50,7 @@ class DataInitializer
     }
 
     private fun createPlayer() {
-        if (ObjectUtils.isEmpty(playerRepository.findById(1L))) {
+        if (userRepository.findById(1L).isEmpty) {
             scrapingService.iterativeApproachToHtml()
         }
     }
