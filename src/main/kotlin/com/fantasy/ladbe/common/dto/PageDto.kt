@@ -11,5 +11,4 @@ class PageDto(
     val numberOfElement: Int = page.numberOfElements
     val totalElements: Long = page.totalElements
     val totalPages: Int = page.totalPages
-
 }

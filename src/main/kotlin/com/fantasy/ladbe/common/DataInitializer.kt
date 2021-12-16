@@ -13,15 +13,13 @@ import org.springframework.util.ObjectUtils
 import java.util.*
 
 @Component
-class DataInitializer
-    (
+class DataInitializer(
     val env: Environment,
     val playerRepository: PlayerRepository,
     val userRepository: UserRepository,
     val scrapingService: ScrapingService,
     @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
-
-    ) : CommandLineRunner {
+) : CommandLineRunner {
 
     @Transactional
     override fun run(vararg args: String?) {
@@ -29,13 +27,10 @@ class DataInitializer
             createTestUser()
             createPlayer()
         }
-
-
     }
 
-
     private fun createTestUser() {
-        if (ObjectUtils.isEmpty(userRepository.findById(1L))) {
+        if (userRepository.findById(1L).isEmpty) {
             val userList = listOf(
                 User(1, "FAKE_CODE1", "FAKE_IMG1", "FAKE_EMAIL1"),
                 User(2, "FAKE_CODE2", "FAKE_IMG2", "FAKE_EMAIL2"),
