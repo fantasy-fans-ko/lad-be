@@ -23,7 +23,7 @@ class DataInitializer(
 
     @Transactional
     override fun run(vararg args: String?) {
-        if (Arrays.stream(env.activeProfiles).anyMatch("local"::equals) && ddl == "none"){
+        if (env.activeProfiles.any { it == "local" } && ddl == "none") {
             createTestUser()
             createPlayer()
         }
@@ -45,7 +45,7 @@ class DataInitializer(
     }
 
     private fun createPlayer() {
-        if (ObjectUtils.isEmpty(playerRepository.findById(1L))) {
+        if (userRepository.findById(1L).isEmpty) {
             scrapingService.iterativeApproachToHtml()
         }
     }
