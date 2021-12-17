@@ -1,13 +1,11 @@
 package com.fantasy.ladbe.config
 
-import com.fantasy.ladbe.oauth.handler.OAuth2FailureHandler
 import com.fantasy.ladbe.oauth.handler.OAuth2SuccessHandler
 import com.fantasy.ladbe.oauth.jwt.JwtAccessDeniedHandler
 import com.fantasy.ladbe.oauth.jwt.JwtAuthenticationEntryPoint
 import com.fantasy.ladbe.oauth.jwt.JwtFilter
 import com.fantasy.ladbe.oauth.jwt.JwtProvider
 import com.fantasy.ladbe.oauth.service.CustomOAuth2UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -20,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig (
     val customOAuth2UserService: CustomOAuth2UserService,
     val oAuth2SuccessHandler: OAuth2SuccessHandler,
-    val oAuth2FailureHandler: OAuth2FailureHandler,
 
     val jwtProvider: JwtProvider,
     val authenticationEntrypoint: JwtAuthenticationEntryPoint,
@@ -53,15 +50,14 @@ class SecurityConfig (
 
             .and()
             .exceptionHandling()
-            .accessDeniedHandler(accessDeniedException) // 권한이 옳바르지 않은 사용자가 접근했을 때
-            .authenticationEntryPoint(authenticationEntrypoint) // jwt 유효성이 틀렸을 때
+            .accessDeniedHandler(accessDeniedException)
+            .authenticationEntryPoint(authenticationEntrypoint)
 
             .and()
             .oauth2Login()
             .userInfoEndpoint().userService(customOAuth2UserService)
             .and()
             .successHandler(oAuth2SuccessHandler)
-            .failureHandler(oAuth2FailureHandler)
 
             .and()
             .logout()
