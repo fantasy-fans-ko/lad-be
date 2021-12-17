@@ -8,10 +8,7 @@ data class CommonApiResponse(
     val timestamp: Long = Instant.now().epochSecond,
     val data: Any? = null,
 ) {
-<<<<<<< HEAD
 
-=======
->>>>>>> main
     companion object {
         private const val OK_CODE = "OK001"
         private const val OK_MESSAGE = "OK"

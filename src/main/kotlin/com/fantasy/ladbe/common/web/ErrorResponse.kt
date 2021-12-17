@@ -17,22 +17,4 @@ data class ErrorResponse (
     val timestamp: Long = 0L
 ) {
 
-<<<<<<< HEAD
 }
-=======
-data class ErrorResponse(
-    var resultCode: String? = null,
-    var httpStatus: String? = null,
-    var httpMethod: String? = null,
-    var message: String? = null,
-    var path: String? = null,
-    var timestamp: LocalDateTime? = null,
-    var errors: MutableList<Error>? = null,
-    )
-
-data class Error(
-    var field: String? = null,
-    var message: String? = null,
-    var value: Any? = null,
-)
->>>>>>> main

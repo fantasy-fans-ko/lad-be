@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletRequest
 class PlayerControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun methodArgumentNotValidException(e: MethodArgumentNotValidException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
+    fun methodArgumentNotValidException(
+        e: MethodArgumentNotValidException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             resultCode = SERVICE_ERROR.code,
             httpStatus = HttpStatus.BAD_REQUEST.value().toString(),

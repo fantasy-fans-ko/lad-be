@@ -38,12 +38,12 @@ class UserDto {
             val kakaoImagePath: String = "",
             val kakaoEmail: String = "",
             val kakaoName: String = "",
-            val role : String = "",
-        ){
-            fun oAuth2ToDto(authentication : Authentication) : OAuth2UserDetail {
-                val oAuth2User : OAuth2User = authentication.principal as OAuth2User
-                val kakaoAccount : Map<String, Any> = oAuth2User.attributes["kakao_account"] as Map<String, Any>
-                val profile : Map<String, Any> = kakaoAccount["profile"] as Map<String, Any>
+            val role: String = "",
+        ) {
+            fun oAuth2ToDto(authentication: Authentication): OAuth2UserDetail {
+                val oAuth2User: OAuth2User = authentication.principal as OAuth2User
+                val kakaoAccount: Map<String, Any> = oAuth2User.attributes["kakao_account"] as Map<String, Any>
+                val profile: Map<String, Any> = kakaoAccount["profile"] as Map<String, Any>
 
                 return OAuth2UserDetail(
                     kakaoName = profile["nickname"].toString(),

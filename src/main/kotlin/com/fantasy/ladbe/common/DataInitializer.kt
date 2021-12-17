@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.ObjectUtils
-import java.util.*
 
 @Component
 class DataInitializer(
@@ -43,7 +41,7 @@ class DataInitializer(
     }
 
     private fun createPlayer() {
-        if (userRepository.findById(1L).isEmpty) {
+        if (playerRepository.findById(1L).isEmpty) {
             scrapingService.iterativeApproachToHtml()
         }
     }

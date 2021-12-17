@@ -55,11 +55,10 @@ class PlayerDto {
                     status = player.status,
                     imageUrl = player.imageUrl,
                     rankPre = player.rankPre,
-                    rankCurrent = player.rankCurrent)
+                    rankCurrent = player.rankCurrent
+                )
             }
-
         }
-
     }
 }
 
