@@ -9,24 +9,21 @@ import org.springframework.stereotype.Service
 class PlayerService(
     val playerRepository: PlayerRepository,
 ) {
-
-    fun readOne(id: Long): PlayerDto.Response.PlayerDetail? {
+    fun readOne(id: Long): PlayerDto.Response.PlayerDetail {
         return playerRepository.selectById(id)?.let {
             PlayerDto.Response.PlayerDetail().entityToDto(it)
+        } ?: throw Exception()
+        // TODO: 2021/12/17 Exception 부분 kakao-login PR 합친 이후 수정 예정
+    }
+
+    fun readAll(): List<PlayerDto.Response.PlayerDetail> {
+        return playerRepository.selectAll().map {
+            PlayerDto.Response.PlayerDetail().entityToDto(it) }
+    }
+
+    fun readPage(request: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail> {
+        return playerRepository.selectPlayersByPaging(request).map {
+            PlayerDto.Response.PlayerDetail().entityToDto(it)
         }
     }
-
-    fun readAll(): List<PlayerDto.Response.PlayerDetail>? {
-        return playerRepository.selectAll()?.map {
-            PlayerDto.Response.PlayerDetail().entityToDto(it)
-        }?.toMutableList()
-    }
-
-    fun readPage(request: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail>? {
-        return playerRepository.selectPlayersByPaging(request)?.map {
-            PlayerDto.Response.PlayerDetail().entityToDto(it)
-        }
-    }
-
-
 }

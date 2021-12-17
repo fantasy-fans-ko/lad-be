@@ -13,25 +13,24 @@ import org.springframework.util.ObjectUtils
 import java.util.*
 
 @Component
-class DataInitializer
-    (
+class DataInitializer(
     val env: Environment,
     val playerRepository: PlayerRepository,
     val userRepository: UserRepository,
     val scrapingService: ScrapingService,
     @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
-    ) : CommandLineRunner {
+) : CommandLineRunner {
 
     @Transactional
     override fun run(vararg args: String?) {
-        if (Arrays.stream(env.activeProfiles).anyMatch("local"::equals) && ddl == "none"){
+        if (env.activeProfiles.any { it == "local" } && ddl == "none") {
             createTestUser()
             createPlayer()
         }
     }
 
     private fun createTestUser() {
-        if (ObjectUtils.isEmpty(userRepository.findById(1L))) {
+        if (userRepository.findById(1L).isEmpty) {
             val userList = listOf(
                 User(1, 1, "FAKE_IMG1", "FAKE_EMAIL1"),
                 User(2, 2, "FAKE_IMG2", "FAKE_EMAIL2"),
@@ -44,7 +43,7 @@ class DataInitializer
     }
 
     private fun createPlayer() {
-        if (ObjectUtils.isEmpty(playerRepository.findById(1L))) {
+        if (userRepository.findById(1L).isEmpty) {
             scrapingService.iterativeApproachToHtml()
         }
     }

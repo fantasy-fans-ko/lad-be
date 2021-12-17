@@ -17,24 +17,18 @@ class PlayerController(
 ) {
 
     @GetMapping
-    fun getPlayer(@RequestParam id: Long): ResponseEntity<CommonApiResponse> {
-        val body = playerService.readOne(id)?.let { success(it) }
-        return ResponseEntity(body, HttpStatus.OK)
-    }
+    fun getPlayer(@RequestParam id: Long) =
+        ResponseEntity(success(playerService.readOne(id)), HttpStatus.OK)
+
 
     @GetMapping("/all")
-    fun getAllPlayers(): ResponseEntity<CommonApiResponse> {
-        val body = playerService.readAll()?.let { success(it) }
-        return ResponseEntity(body, HttpStatus.OK)
-    }
+    fun getAllPlayers() =
+        ResponseEntity(success(playerService.readAll()), HttpStatus.OK)
 
     @GetMapping("/page")
     fun getPlayersByPaging(@Valid @RequestBody request: PlayerDto.Request.PlayerPage): ResponseEntity<CommonApiResponse> {
-        val body = playerService.readPage(request)?.let {
-            val pageDto = PageDto(page = it, content = it.content)
-            success(pageDto)
-        }
-        return ResponseEntity(body, HttpStatus.OK)
-
+        val readPage = playerService.readPage(request)
+        val pageDto = PageDto(page = readPage, content = readPage.content)
+        return ResponseEntity(success(pageDto), HttpStatus.OK)
     }
 }

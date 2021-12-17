@@ -8,7 +8,7 @@ interface PlayerCustomRepository {
 
     fun selectById(id: Long): Player?
 
-    fun selectAll(): List<Player>?
+    fun selectAll(): List<Player>
 
-    fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage) : Page<Player>?
+    fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage) : Page<Player>
 }

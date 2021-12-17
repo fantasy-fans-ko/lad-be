@@ -23,7 +23,7 @@ class PlayerCustomRepositoryImpl(
     @Autowired
     @Resource(name = "jpaQueryFactory")
     val queryFactory: JPAQueryFactory,
-) : QuerydslRepositorySupport(Player::class.java), PlayerCustomRepository{
+) : QuerydslRepositorySupport(Player::class.java), PlayerCustomRepository {
 
     override fun selectById(id: Long): Player? {
         return queryFactory
@@ -32,13 +32,13 @@ class PlayerCustomRepositoryImpl(
             .fetchOne()
     }
 
-    override fun selectAll(): MutableList<Player>? {
+    override fun selectAll(): List<Player> {
         return queryFactory
             .selectFrom(player)
             .fetch()
     }
 
-    override fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage): Page<Player>? {
+    override fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage): Page<Player> {
 
         val pageRequest: PageRequest = playerPage.pageable.getPageRequest()
 
@@ -50,20 +50,24 @@ class PlayerCustomRepositoryImpl(
             .limit(pageRequest.pageSize.toLong())
             .fetchResults()
 
-        val content: MutableList<Player> = queryResults.results
+        val content: List<Player> = queryResults.results
         val total = queryResults.total
 
+<<<<<<< HEAD
         return PageImpl(content,pageRequest,total)
+=======
+        return PageImpl(content, pageRequest, total)
+>>>>>>> main
     }
 
-    fun getOrderSpecifier(sort :Sort): List<OrderSpecifier<*>> {
+    fun getOrderSpecifier(sort: Sort): List<OrderSpecifier<*>> {
 
         val orders: MutableList<OrderSpecifier<*>> = ArrayList()
 
         if (!sort.isEmpty) {
-            for (order : Sort.Order in sort){
-                val direction : Order = if(order.direction.isAscending) Order.ASC else Order.DESC
-                when (order.property){
+            for (order: Sort.Order in sort) {
+                val direction: Order = if (order.direction.isAscending) Order.ASC else Order.DESC
+                when (order.property) {
                     "id" -> orders.add(OrderSpecifier(direction, player.id))
                     "name" -> orders.add(OrderSpecifier(direction, player.name))
                     "position" -> orders.add(OrderSpecifier(direction, player.position))
@@ -85,6 +89,9 @@ class PlayerCustomRepositoryImpl(
         }
         return orders
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> main
 }
