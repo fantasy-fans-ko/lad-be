@@ -1,5 +1,6 @@
 package com.fantasy.ladbe.model
 
+import com.fantasy.ladbe.dto.UserDto
 import javax.persistence.*
 import javax.persistence.GenerationType.*
 
@@ -8,12 +9,19 @@ import javax.persistence.GenerationType.*
 data class User(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L,
-    @Column(length = 16)
-    val nickname : String = "",
     @Column(name = "kakao_code", length = 256)
-    val kakaoCode : String = "",
+    val kakaoCode: String = "",
     @Column(name = "kakao_image_path", length = 256)
-    val kakaoImagePath : String = "",
+    val kakaoImagePath: String = "",
     @Column(name = "kakao_email", length = 49)
-    val kakaoEmail : String = "",
-    )
+    val kakaoEmail: String = "",
+) {
+    fun toDto(): UserDto.Response.UserDetail {
+        return UserDto.Response.UserDetail(
+            id = id,
+            kakaoCode = kakaoCode,
+            kakaoImagePath = kakaoImagePath,
+            kakaoEmail = kakaoEmail
+        )
+    }
+}
