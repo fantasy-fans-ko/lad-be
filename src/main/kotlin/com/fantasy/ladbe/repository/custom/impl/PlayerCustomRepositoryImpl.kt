@@ -53,11 +53,7 @@ class PlayerCustomRepositoryImpl(
         val content: List<Player> = queryResults.results
         val total = queryResults.total
 
-<<<<<<< HEAD
-        return PageImpl(content,pageRequest,total)
-=======
         return PageImpl(content, pageRequest, total)
->>>>>>> main
     }
 
     fun getOrderSpecifier(sort: Sort): List<OrderSpecifier<*>> {
@@ -89,9 +85,4 @@ class PlayerCustomRepositoryImpl(
         }
         return orders
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> main
 }
