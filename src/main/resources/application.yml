@@ -3,7 +3,6 @@ spring:
     active: local
     include:
     - oauth
-    - jwt
 
   datasource:
     url: jdbc:mysql://localhost:3306/ladbe?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8

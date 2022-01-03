@@ -15,10 +15,10 @@ class UserDto {
 
     class Response {
         data class UserDetail(
-            var id: Long = 0L,
-            var kakaoCode: Long = 0L,
-            var kakaoImagePath: String = "",
-            var kakaoEmail: String = "",
+            val id: Long = 0L,
+            val kakaoCode: Long = 0L,
+            val kakaoImagePath: String = "",
+            val kakaoEmail: String = "",
         ) {
             fun entityToDto(user: User): UserDetail {
                 return UserDetail(
