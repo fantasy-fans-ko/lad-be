@@ -14,8 +14,8 @@ class OAuthAttributes(
     val nameAttributeKey: String = "",
     val name: String = "",
     val email: String = "",
-    val imagePath : String = "",
-    val code : Long = 0L,
+    val imagePath: String = "",
+    val code: Long = 0L,
 ) {
 
     companion object {
@@ -32,7 +32,7 @@ class OAuthAttributes(
             usernameAttributeKey: String,
             attributes: Map<String, Any>
         ): OAuthAttributes {
-            return when(registerId) {
+            return when (registerId) {
                 "kakao" -> ofKakao(usernameAttributeKey, attributes)
                 else -> OAuthAttributes()
             }
@@ -48,8 +48,8 @@ class OAuthAttributes(
             usernameAttributeKey: String,
             attributes: Map<String, Any>
         ): OAuthAttributes {
-            val kakaoAccount : Map<String, Any> = attributes["kakao_account"] as Map<String, Any>
-            val profile : Map<String, Any> = kakaoAccount["profile"] as Map<String, Any>
+            val kakaoAccount: Map<String, Any> = attributes["kakao_account"] as Map<String, Any>
+            val profile: Map<String, Any> = kakaoAccount["profile"] as Map<String, Any>
 
             return OAuthAttributes(
                 attributes = attributes,
@@ -57,7 +57,7 @@ class OAuthAttributes(
                 name = profile["nickname"] as String,
                 imagePath = profile["thumbnail_image_url"] as String,
                 email = kakaoAccount["email"] as String,
-                code =  attributes["id"].toString().toLong()
+                code = attributes["id"].toString().toLong()
             )
         }
     }

@@ -37,7 +37,7 @@ class CustomOAuth2UserService(
             email = oAuthAttributes.email,
             imagePath = oAuthAttributes.imagePath
         ).let {
-            val collection : Collection<out GrantedAuthority> = AuthorityUtils.createAuthorityList("ROLE_USER") // 권한 주입
+            val collection: Collection<out GrantedAuthority> = AuthorityUtils.createAuthorityList("ROLE_USER") // 권한 주입
             return DefaultOAuth2User(collection, oAuthAttributes.attributes, oAuthAttributes.nameAttributeKey)
         }
     }

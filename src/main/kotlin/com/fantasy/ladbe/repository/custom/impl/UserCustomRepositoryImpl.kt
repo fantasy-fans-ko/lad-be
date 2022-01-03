@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import javax.annotation.Resource
 
-
 @Repository
 class UserCustomRepositoryImpl(
     @Autowired
@@ -24,7 +23,7 @@ class UserCustomRepositoryImpl(
             .fetchOne()
     }
 
-    override fun selectByKakaoCode(kakaoCode : Long): User? {
+    override fun selectByKakaoCode(kakaoCode: Long): User? {
         return queryFactory
             .selectFrom(user)
             .where(user.kakaoCode.eq(kakaoCode))

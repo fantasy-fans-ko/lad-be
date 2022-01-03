@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.5.6"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jmailen.kotlinter") version "3.2.0"
     kotlin("jvm") version "1.5.31"
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
@@ -30,14 +31,14 @@ dependencies {
     // Test & Add..
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation ("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     compileOnly("com.google.code.gson:gson")
 
     // JWT
-    compileOnly (group = "io.jsonwebtoken", name = "jjwt-api", version = "0.11.2")
-    runtimeOnly (group = "io.jsonwebtoken", name = "jjwt-impl", version = "0.11.2")
-    runtimeOnly (group = "io.jsonwebtoken", name =  "jjwt-jackson", version = "0.11.2")
+    compileOnly(group = "io.jsonwebtoken", name = "jjwt-api", version = "0.11.2")
+    runtimeOnly(group = "io.jsonwebtoken", name = "jjwt-impl", version = "0.11.2")
+    runtimeOnly(group = "io.jsonwebtoken", name = "jjwt-jackson", version = "0.11.2")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -53,7 +54,6 @@ dependencies {
             kotlin.srcDir("$buildDir/generated/source/kapt/main")
         }
     }
-
 }
 
 tasks.withType<KotlinCompile> {

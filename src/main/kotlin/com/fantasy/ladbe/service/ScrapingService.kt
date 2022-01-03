@@ -16,9 +16,8 @@ import org.springframework.stereotype.Service
 const val DEFAULT_HTML_URL = "http://localhost:8080/htmlResources/"
 const val DEFAULT_IMAGE_URL = "http://localhost:8080/player/"
 
-//const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
+// const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
 const val DEFAULT_IMAGE_RESOURCES_PATH = "playerImages/"
-
 
 @Service
 class ScrapingService(
@@ -48,7 +47,7 @@ class ScrapingService(
     private fun savePlayer(elements: Elements) {
         for (element: Element in elements) {
             val playerName: String = element.select("td.player a.Nowrap").text() // 선수 이름
-            val status : String = element.select("td.player abbr.F-injury").text() // 선수 상태
+            val status: String = element.select("td.player abbr.F-injury").text() // 선수 상태
             // 선수의 팀과 포지션
             val teamAndPosition: List<String> = element.select("td.player span.Fz-xxs")
                 .text().split(" ").toList()
@@ -80,7 +79,6 @@ class ScrapingService(
             }
         }
     }
-
 
     /**
      * 동명이인이 있는지 확인을 한 뒤, 있다면 이름 뒤에 팀을 붙여줌
@@ -122,5 +120,4 @@ class ScrapingService(
             "INJ" -> PlayerStatus.INJURED
             else -> PlayerStatus.HEALTHY
         }
-
 }

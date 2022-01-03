@@ -5,7 +5,6 @@ import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.oauth.jwt.JwtProvider
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import net.minidev.json.JSONObject
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
@@ -60,9 +59,11 @@ class OAuth2SuccessHandler(
 
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
+        response.status = 200
 
         val responseData = CommonApiResponse.success(jsonObject)
         val gson = Gson().toJson(responseData)
+
         response.writer.write(gson) // body 로 전송
     }
 }

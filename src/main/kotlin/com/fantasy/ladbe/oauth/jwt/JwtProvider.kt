@@ -1,8 +1,13 @@
 package com.fantasy.ladbe.oauth.jwt
 
 import com.fantasy.ladbe.dto.UserDto
-import com.fantasy.ladbe.handler.exception.Exceptions.*
-import io.jsonwebtoken.*
+import com.fantasy.ladbe.handler.exception.Exceptions
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.MalformedJwtException
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.InitializingBean
@@ -14,10 +19,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
+
 import java.lang.IllegalArgumentException
 import java.nio.charset.StandardCharsets
 import java.security.Key
-import java.util.*
+import java.util.Base64
+import java.util.Date
 import javax.servlet.http.HttpServletRequest
 
 const val ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS = 3 * 60 * 60 * 1000L // 3시간
@@ -25,7 +32,7 @@ const val ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS = 3 * 60 * 60 * 1000L // 3시간
 @Component
 class JwtProvider(
     @Value("\${jwt.secret}")
-    val jwtSecret : String
+    val jwtSecret: String
 ) : InitializingBean {
 
     private lateinit var key: Key
@@ -66,15 +73,15 @@ class JwtProvider(
     fun parseJwt(
         token: String
     ): Authentication {
-        val claims : Claims = Jwts.parserBuilder()
+        val claims: Claims = Jwts.parserBuilder()
             .setSigningKey(key)
             .build().parseClaimsJws(token).body
 
-        val authorities : Collection<out GrantedAuthority> = claims["auth"].toString().split(",").map {
-            authority -> SimpleGrantedAuthority(authority)
+        val authorities: Collection<out GrantedAuthority> = claims["auth"].toString().split(",").map { authority ->
+            SimpleGrantedAuthority(authority)
         }.toList()
 
-        val principal : UserDetails = User(claims["email"].toString(), "", authorities)
+        val principal: UserDetails = User(claims["email"].toString(), "", authorities)
 
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }
@@ -87,18 +94,18 @@ class JwtProvider(
      */
     fun validateToken(token: String, request: HttpServletRequest): Boolean {
         runCatching {
-           Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
         }.onSuccess {
             return true
         }.onFailure { e ->
             when (e) {
                 is SecurityException, is MalformedJwtException ->
-                    request.setAttribute("exception", JWT_WRONG_TYPE_TOKEN.code)
-                is ExpiredJwtException -> request.setAttribute("exception", JWT_EXPIRED_TOKEN.code)
-                is UnsupportedJwtException -> request.setAttribute("exception", JWT_UNSUPPORTED_TOKEN.code)
-                is IllegalArgumentException -> request.setAttribute("exception", JWT_WRONG_TOKEN.code)
+                    request.setAttribute("exception", Exceptions.JWT_WRONG_TYPE_TOKEN.code)
+                is ExpiredJwtException -> request.setAttribute("exception", Exceptions.JWT_EXPIRED_TOKEN.code)
+                is UnsupportedJwtException -> request.setAttribute("exception", Exceptions.JWT_UNSUPPORTED_TOKEN.code)
+                is IllegalArgumentException -> request.setAttribute("exception", Exceptions.JWT_WRONG_TOKEN.code)
                 else -> {
-                    request.setAttribute("exception", JWT_UNKNOWN_ERROR)
+                    request.setAttribute("exception", Exceptions.JWT_UNKNOWN_ERROR)
                     request.setAttribute("error", e.message)
                 }
             }

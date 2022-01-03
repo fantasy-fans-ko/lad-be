@@ -2,7 +2,7 @@ package com.fantasy.ladbe.model
 
 import com.fantasy.ladbe.dto.UserDto
 import javax.persistence.*
-import javax.persistence.GenerationType.*
+import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 @Table(name = "users")
