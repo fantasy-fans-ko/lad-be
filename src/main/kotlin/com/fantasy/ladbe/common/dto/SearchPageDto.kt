@@ -4,7 +4,6 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.util.ObjectUtils
-import java.util.function.Consumer
 
 class PageParam(
     val page: Int = 1,

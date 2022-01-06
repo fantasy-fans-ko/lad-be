@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.5.6"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jmailen.kotlinter") version "3.2.0"
     kotlin("jvm") version "1.5.31"
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
@@ -18,22 +19,33 @@ repositories {
 }
 
 dependencies {
+    // DB
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
     implementation("org.flywaydb:flyway-core")
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
-
+    // Scraping
     implementation("org.jsoup:jsoup:1.13.1")
 
+    // Test & Add..
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    compileOnly("com.google.code.gson:gson")
 
+    // JWT
+    compileOnly(group = "io.jsonwebtoken", name = "jjwt-api", version = "0.11.2")
+    runtimeOnly(group = "io.jsonwebtoken", name = "jjwt-impl", version = "0.11.2")
+    runtimeOnly(group = "io.jsonwebtoken", name = "jjwt-jackson", version = "0.11.2")
+
+    // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    //queryDsl
+    // QueryDsl
     implementation("com.querydsl:querydsl-jpa")
     kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
 
@@ -42,9 +54,6 @@ dependencies {
             kotlin.srcDir("$buildDir/generated/source/kapt/main")
         }
     }
-
-    implementation ("org.springframework.boot:spring-boot-starter-validation")
-
 }
 
 tasks.withType<KotlinCompile> {

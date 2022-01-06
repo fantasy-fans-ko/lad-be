@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest
 internal class PlayerRepositoryTest @Autowired constructor(
     val playerRepository: PlayerRepository
 ) {
-
     @BeforeEach
     fun beforeEach() {
         playerRepository.deleteAll()
@@ -24,18 +23,15 @@ internal class PlayerRepositoryTest @Autowired constructor(
         playerRepository.saveAll(playerList)
     }
 
-
     @Test
     @DisplayName("전체 조회 테스트")
     fun searchAllTest() {
-        //given
+        // given
 
-        //when
+        // when
         val list = playerRepository.selectAll()
 
-
-        //then
-        assertEquals(list?.size,2)
-
+        // then
+        assertEquals(list?.size, 2)
     }
 }

@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.repository.custom.impl
 
 import com.fantasy.ladbe.dto.PlayerDto
-import com.fantasy.ladbe.dto.QPlayerDto_Response_PlayerDetail
 import com.fantasy.ladbe.model.Player
 import com.fantasy.ladbe.model.QPlayer.player
 import com.fantasy.ladbe.repository.custom.PlayerCustomRepository
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 import javax.annotation.Resource
-
 
 @Repository
 class PlayerCustomRepositoryImpl(

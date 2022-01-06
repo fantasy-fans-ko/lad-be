@@ -11,5 +11,4 @@ class LadBeApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

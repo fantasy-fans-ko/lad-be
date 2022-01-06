@@ -18,7 +18,8 @@ class PlayerService(
 
     fun readAll(): List<PlayerDto.Response.PlayerDetail> {
         return playerRepository.selectAll().map {
-            PlayerDto.Response.PlayerDetail().entityToDto(it) }
+            PlayerDto.Response.PlayerDetail().entityToDto(it)
+        }
     }
 
     fun readPage(request: PlayerDto.Request.PlayerPage): Page<PlayerDto.Response.PlayerDetail> {
