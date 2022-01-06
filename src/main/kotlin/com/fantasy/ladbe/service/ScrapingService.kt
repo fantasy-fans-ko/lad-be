@@ -16,19 +16,21 @@ import org.springframework.stereotype.Service
 const val DEFAULT_HTML_URL = "http://localhost:8080/htmlResources/"
 const val DEFAULT_IMAGE_URL = "http://localhost:8080/player/"
 
-//const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
+// const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
 const val DEFAULT_IMAGE_RESOURCES_PATH = "playerImages/"
 
-
 @Service
-class ScrapingService {
-
+class ScrapingService(
     @Autowired
-    private lateinit var playerRepository: PlayerRepository
+    val playerRepository: PlayerRepository,
+) {
 
     @Value("classpath:/htmlResources/*.html")
     private lateinit var htmls: Array<Resource>
 
+    /**
+     * resources 파일에 있는 html의 정보들을 계속 돌려가며 접근하기 위한 함수
+     */
     fun iterativeApproachToHtml() {
         for (html: Resource in htmls) { // 여러 html들 중에서 하나씩 접근
             val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename).get() // 해당 html에 접근한다.
@@ -38,10 +40,14 @@ class ScrapingService {
         }
     }
 
+    /**
+     * 파싱한 뒤 선수의 정보를 저장하는 함수
+     * param : elements - html 의 내용
+     */
     private fun savePlayer(elements: Elements) {
         for (element: Element in elements) {
             val playerName: String = element.select("td.player a.Nowrap").text() // 선수 이름
-            val status : String = element.select("td.player abbr.F-injury").text() // 선수 상태
+            val status: String = element.select("td.player abbr.F-injury").text() // 선수 상태
             // 선수의 팀과 포지션
             val teamAndPosition: List<String> = element.select("td.player span.Fz-xxs")
                 .text().split(" ").toList()
@@ -50,7 +56,7 @@ class ScrapingService {
             val statList: List<String> = element.select("td.Ta-end").text().split(" ")
                 .map { str: String -> str.replace("-", "0") }
 
-            val player = Player(
+            Player(
                 name = playerName,
                 teamName = teamAndPosition.elementAt(0),
                 position = teamAndPosition.elementAt(2),
@@ -68,13 +74,18 @@ class ScrapingService {
                 tripleDoubles = statList.elementAt(17).toInt(),
                 status = playerStatusOf(status),
                 imageUrl = "$DEFAULT_IMAGE_URL$imageUrl.png"
-            )
-            playerRepository.save(player);
+            ).let {
+                playerRepository.save(it)
+            }
         }
     }
 
-
-    // 동명이인 확인
+    /**
+     * 동명이인이 있는지 확인을 한 뒤, 있다면 이름 뒤에 팀을 붙여줌
+     * param : playerName - 선수 이름
+     *         teamName - 팀 이름
+     * return : 가공을 한 뒤, 반환
+     */
     private fun filterSameName(playerName: String, teamName: String): String {
         /**
          * 파일명을 접근할 수 있는 이름으로 변경
@@ -97,7 +108,11 @@ class ScrapingService {
         return afterPlayerName // 아니라면 선수이름만 반환
     }
 
-    // 선수의 상태를 확인하고 반환
+    /**
+     * 선수의 상태를 확인하는 함수
+     * param : status - 선수의 현재 상태
+     * return : PlayerStatus Enum에 알맞는 값 반환
+     */
     private fun playerStatusOf(status: String) =
         when (status) {
             "GTD" -> PlayerStatus.GAME_TIME_DECISION
@@ -105,5 +120,4 @@ class ScrapingService {
             "INJ" -> PlayerStatus.INJURED
             else -> PlayerStatus.HEALTHY
         }
-
 }

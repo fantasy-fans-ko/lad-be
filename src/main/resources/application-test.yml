@@ -3,6 +3,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      include:
+        - oauth
 
   datasource:
     url: jdbc:h2:mem:db;MODE=MySQL;DATABASE_TO_LOWER=TRUE

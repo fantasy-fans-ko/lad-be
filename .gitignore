@@ -36,6 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-### Secret-key yml ###
-src/main/resources/application-jwt.yml
+### Yml ###
 src/main/resources/application-oauth.yml

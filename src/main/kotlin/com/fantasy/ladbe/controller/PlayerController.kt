@@ -7,7 +7,11 @@ import com.fantasy.ladbe.dto.PlayerDto
 import com.fantasy.ladbe.service.PlayerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestBody
 import javax.validation.Valid
 
 @RestController
@@ -17,9 +21,8 @@ class PlayerController(
 ) {
 
     @GetMapping
-    fun getPlayer(@RequestParam id: Long) =
+    fun getPlayer(@RequestParam @Valid id: Long) =
         ResponseEntity(success(playerService.readOne(id)), HttpStatus.OK)
-
 
     @GetMapping("/all")
     fun getAllPlayers() =

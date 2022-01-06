@@ -1,12 +1,13 @@
 package com.fantasy.ladbe.controller
 
 import com.fantasy.ladbe.common.web.CommonApiResponse
-import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @RestController
 @RequestMapping("api/users")
@@ -24,11 +25,4 @@ class UserController(
         val body = userService.readAll()?.let { CommonApiResponse.success(it) }
         return ResponseEntity(body, HttpStatus.OK)
     }
-
-    @PostMapping
-    fun createUser(@RequestBody request: UserDto.Request.CreateUser): ResponseEntity<CommonApiResponse> {
-        userService.create(request)
-        return ResponseEntity(CommonApiResponse.success(), HttpStatus.OK)
-    }
-
 }
