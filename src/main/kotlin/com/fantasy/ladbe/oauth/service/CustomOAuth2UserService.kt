@@ -27,6 +27,7 @@ class CustomOAuth2UserService(
 
         val registerId: String =
             userRequest.clientRegistration.registrationId // 서비스의 이름을 명시 ex) kakao, google, github 등등..
+        println(registerId);
         val usernameAttributeKey: String = userRequest.clientRegistration.providerDetails
             .userInfoEndpoint.userNameAttributeName // 소셜 로그인에서 사용하고 있는 고유 키 값 ex) id
         val oAuthAttributes: OAuthAttributes =

@@ -34,7 +34,7 @@ class SecurityConfig(
             .formLogin().disable()
             .authorizeRequests()
             .antMatchers( // 로그인은 누구나 접근 가능
-                "/oauth2/authorization/kakao"
+                "/oauth2/authorization/**"
             ).permitAll()
             .antMatchers( // 이외의 경로는 권한을 가지고 있어야 함.
                 "/api/players/**"

@@ -34,6 +34,7 @@ class OAuthAttributes(
         ): OAuthAttributes {
             return when (registerId) {
                 "kakao" -> ofKakao(usernameAttributeKey, attributes)
+                "yahoo" -> ofYahoo(usernameAttributeKey, attributes)
                 else -> OAuthAttributes()
             }
         }
@@ -59,6 +60,14 @@ class OAuthAttributes(
                 email = kakaoAccount["email"] as String,
                 code = attributes["id"].toString().toLong()
             )
+        }
+
+        fun ofYahoo(
+            usernameAttributeKey: String,
+            attributes: Map<String, Any>
+        ) : OAuthAttributes {
+            println("sdfsdfsdf")
+            return OAuthAttributes()
         }
     }
 }

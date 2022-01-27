@@ -23,7 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
-    implementation("org.flywaydb:flyway-core")
+//    implementation("org.flywaydb:flyway-core")
 
     // Scraping
     implementation("org.jsoup:jsoup:1.13.1")
