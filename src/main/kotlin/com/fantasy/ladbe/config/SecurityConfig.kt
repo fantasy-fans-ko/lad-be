@@ -42,7 +42,8 @@ class SecurityConfig(
             .antMatchers( // 추가적인 선수의 데이터 주입 방지를 위해 막아야함.
                 "/htmlResources/**",
                 "/api/scraping/players",
-            ).hasAnyRole("ADMIN")
+            ).permitAll()
+//            .hasAnyRole("ADMIN")
             .anyRequest()
             .authenticated()
             .and()

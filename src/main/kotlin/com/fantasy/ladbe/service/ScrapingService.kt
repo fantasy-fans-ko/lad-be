@@ -33,10 +33,13 @@ class ScrapingService(
      */
     fun iterativeApproachToHtml() {
         for (html: Resource in htmls) { // 여러 html들 중에서 하나씩 접근
-            val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename).get() // 해당 html에 접근한다.
-            val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
-
-            savePlayer(elements)
+//            val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename)
+//                .get() // 해당 html에 접근한다.
+//            println("document : ${document.body()}")
+            Jsoup.connect(DEFAULT_HTML_URL + html.filename).get()
+//            val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
+//
+//            savePlayer(elements)
         }
     }
 
