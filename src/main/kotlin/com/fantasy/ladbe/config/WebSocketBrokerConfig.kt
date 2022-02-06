@@ -8,11 +8,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketBrokerConfig
-    : WebSocketMessageBrokerConfigurer {
+class WebSocketBrokerConfig (
+//    val stompHandler: StompHandler
+    ) : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-        registry.addEndpoint("/gs-guide-websocket") // 웹 소켓 연결을 위한 주소입니다.
-            .setAllowedOrigins("*")
+        registry.addEndpoint("/ws") // 웹 소켓 연결을 위한 주소입니다.
+            .setAllowedOriginPatterns("*")
             .withSockJS()
     }
 
@@ -23,9 +24,12 @@ class WebSocketBrokerConfig
         queue : 1:1 메시지를 주고받을 때, 사용하는 Prefix
         topic : 1:N 메시지를 주고받을 때, 사용하는 Prefix
          */
-        registry.setApplicationDestinationPrefixes("/app")
+        registry.setApplicationDestinationPrefixes("/draft")
         // 메시지의 가공이 필요할 때, 사용하는 prefix 입니다.
     }
 
-
+    //
+//    override fun configureClientOutboundChannel(registration: ChannelRegistration) {
+//        registration.interceptors(stompHandler)
+//    }
 }

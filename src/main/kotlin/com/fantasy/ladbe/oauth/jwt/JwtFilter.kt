@@ -41,7 +41,8 @@ class JwtFilter(
             return token.substring(7)
         }
 
-        request.setAttribute("exception", JWT_NULL_TOKEN.code)
-        throw NullPointerException()
+        return token
+//        request.setAttribute("exception", JWT_NULL_TOKEN.code)
+//        throw NullPointerException()
     }
 }

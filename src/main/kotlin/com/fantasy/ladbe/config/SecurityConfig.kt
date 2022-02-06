@@ -45,7 +45,7 @@ class SecurityConfig(
             ).permitAll()
 //            .hasAnyRole("ADMIN")
             .anyRequest()
-            .authenticated()
+            .permitAll()
             .and()
             .exceptionHandling()
             .accessDeniedHandler(accessDeniedException)
