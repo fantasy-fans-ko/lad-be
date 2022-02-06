@@ -13,12 +13,10 @@ data class CommonApiResponse(
         private const val OK_CODE = "OK001"
         private const val OK_MESSAGE = "OK"
 
-        fun success(): CommonApiResponse {
-            return CommonApiResponse(code = OK_CODE, message = OK_MESSAGE)
-        }
+        fun success(): CommonApiResponse =
+            CommonApiResponse(code = OK_CODE, message = OK_MESSAGE)
 
-        fun success(any: Any): CommonApiResponse {
-            return CommonApiResponse(code = OK_CODE, message = OK_MESSAGE, data = any)
-        }
+        fun success(any: Any): CommonApiResponse =
+            CommonApiResponse(code = OK_CODE, message = OK_MESSAGE, data = any)
     }
 }

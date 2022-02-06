@@ -1,10 +1,8 @@
 package com.fantasy.ladbe.oauth.jwt
 
-import com.fantasy.ladbe.common.log.logger
-import com.fantasy.ladbe.common.web.ErrorResponse
+import com.fantasy.ladbe.common.web.CommonErrorResponse.Companion.error
 import com.fantasy.ladbe.handler.exception.Exceptions
 import com.google.gson.Gson
-import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
@@ -42,13 +40,12 @@ class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
         request: HttpServletRequest,
         exceptions: Exceptions
     ) {
-        val errorResponse = ErrorResponse().toErrorResponse(request, exceptions)
-
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
 
-        val gson = Gson().toJson(errorResponse)
+        val gson = Gson().toJson(
+            error(exceptions = exceptions, request = request)
+        )
         response.writer.write(gson)
     }
-
 }

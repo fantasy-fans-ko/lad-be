@@ -1,6 +1,6 @@
 package com.fantasy.ladbe.oauth.jwt
 
-import com.fantasy.ladbe.common.web.ErrorResponse
+import com.fantasy.ladbe.common.web.CommonErrorResponse.Companion.error
 import com.fantasy.ladbe.handler.exception.Exceptions.PERMISSION_DENIED
 import com.google.gson.Gson
 import org.springframework.security.access.AccessDeniedException
@@ -20,13 +20,12 @@ class JwtAccessDeniedHandler : AccessDeniedHandler {
         response: HttpServletResponse,
         accessDeniedException: AccessDeniedException
     ) {
-        val errorResponse = ErrorResponse().toErrorResponse(request, PERMISSION_DENIED)
-
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
 
-        val gson = Gson().toJson(errorResponse)
+        val gson = Gson().toJson(
+            error(exceptions = PERMISSION_DENIED, request = request)
+        )
         response.writer.write(gson)
-
     }
 }

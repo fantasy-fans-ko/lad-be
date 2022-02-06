@@ -50,7 +50,6 @@ class JwtProvider(
     fun create(
         oAuth2Dto: UserDto.Response.OAuth2UserDetail
     ): String {
-
         // 유효시간 설정
         val now: Long = Date().time
         val validity = Date(now + ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS)

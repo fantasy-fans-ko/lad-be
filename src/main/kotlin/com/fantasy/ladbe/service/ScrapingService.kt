@@ -13,8 +13,8 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 
-const val DEFAULT_HTML_URL = "http://localhost:8080/htmlResources/"
-const val DEFAULT_IMAGE_URL = "http://localhost:8080/player/"
+const val DEFAULT_HTML_PATH = "http://localhost:8080/htmlResources/"
+const val DEFAULT_IMAGE_PATH = "http://localhost:8080/player/"
 
 // const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
 const val DEFAULT_IMAGE_RESOURCES_PATH = "playerImages/"
@@ -33,13 +33,10 @@ class ScrapingService(
      */
     fun iterativeApproachToHtml() {
         for (html: Resource in htmls) { // 여러 html들 중에서 하나씩 접근
-//            val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename)
-//                .get() // 해당 html에 접근한다.
-//            println("document : ${document.body()}")
-            Jsoup.connect(DEFAULT_HTML_URL + html.filename).get()
-//            val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
-//
-//            savePlayer(elements)
+            val document: Document = Jsoup.connect(DEFAULT_HTML_PATH + html.filename).get() // 해당 html에 접근한다.
+            val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
+
+            savePlayer(elements)
         }
     }
 
@@ -54,7 +51,7 @@ class ScrapingService(
             // 선수의 팀과 포지션
             val teamAndPosition: List<String> = element.select("td.player span.Fz-xxs")
                 .text().split(" ").toList()
-            val imageUrl = filterSameName(playerName, teamAndPosition.elementAt(0)) // 동명이인 체크
+            val imagePath = filterSameName(playerName, teamAndPosition.elementAt(0)) // 동명이인 체크
             // 스탯의 값을 분할한 뒤, 값이 없는 경우(-) 0으로 변경
             val statList: List<String> = element.select("td.Ta-end").text().split(" ")
                 .map { str: String -> str.replace("-", "0") }
@@ -76,7 +73,7 @@ class ScrapingService(
                 turnOvers = statList.elementAt(16).toInt(),
                 tripleDoubles = statList.elementAt(17).toInt(),
                 status = playerStatusOf(status),
-                imageUrl = "$DEFAULT_IMAGE_URL$imageUrl.png"
+                imagePath = "$DEFAULT_IMAGE_PATH$imagePath.png"
             ).let {
                 playerRepository.save(it)
             }

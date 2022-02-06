@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest
  * path : 에러가 발생된 경로
  * timestamp : 에러가 발생된 시간
  */
-data class ErrorResponse(
+data class CommonErrorResponse(
     val errorCode: String = "",
     val httpStatus: String = "",
     val httpMethod: String = "",
@@ -20,16 +20,18 @@ data class ErrorResponse(
     val path: String = "",
     val timestamp: Long = 0L
 ) {
-    fun toErrorResponse(
-        request: HttpServletRequest,
-        exceptions: Exceptions
-    ): ErrorResponse =
-        ErrorResponse(
-            errorCode = exceptions.code,
-            httpStatus = exceptions.status.toString(),
-            httpMethod = request.method,
-            message = exceptions.message,
-            path = request.requestURI,
-            timestamp = Instant.now().epochSecond
-        )
+    companion object {
+        fun error(
+            exceptions: Exceptions,
+            request: HttpServletRequest
+        ): CommonErrorResponse =
+            CommonErrorResponse (
+                errorCode = exceptions.code,
+                httpStatus = exceptions.status.toString(),
+                httpMethod = request.method,
+                message = exceptions.message,
+                path = request.requestURI,
+                timestamp = Instant.now().epochSecond
+            )
+    }
 }
