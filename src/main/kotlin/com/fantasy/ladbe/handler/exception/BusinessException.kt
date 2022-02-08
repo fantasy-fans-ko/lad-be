@@ -1,5 +1,3 @@
 package com.fantasy.ladbe.handler.exception
 
-class BusinessException(
-    val exceptions: Exceptions
-) : RuntimeException()
+class BusinessException(val exceptions: Exceptions) : RuntimeException(exceptions.message)
