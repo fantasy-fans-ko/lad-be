@@ -24,7 +24,6 @@ class DataInitializer(
     val scrapingService: ScrapingService,
     @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
 ) : CommandLineRunner {
-
     @Transactional
     override fun run(vararg args: String?) {
         if (env.activeProfiles.any { it == "local" } && ddl == "none") {
