@@ -30,8 +30,7 @@ alter table `player_acquisitions`
     add foreign key (`bid_log_id`) references bid_logs (`id`);
 
 alter table `auctions`
-    add `user_id` bigint default NULL COMMENT '생성한 유저 id';
-alter table `auctions`
-    add foreign key (`user_id`) references users (`id`);
+    add `size` int NOT NULL COMMENT '옥션방의 최대 인원 수';
 
-
+alter table `bidders`
+    add `image_path` varchar(512) NOT NULL COMMENT '프로필 사진의 경로';

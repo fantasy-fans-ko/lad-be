@@ -14,12 +14,12 @@ class UserService(
 ) {
     /**
      * 사용자의 정보를 업데이트 또는 회원가입을 해주는 메소드
-     * param :  kakaoCode - 사용자 고유 값
-     *          imagePath - 카카오 정보에 담겨져있는 프로필 사진의 경로
-     *          email - 카카오 정보에 담겨있는 사용자 이메일
-     * return : 카카오 고유 번호로 사용자 존재 여부를 확인을 하고 존재할 경우, 업데이트를 한다.
-     *          null이 반환(사용자가 없음)이 된다면, 회원가입을 한다.
-     *          마지막으로 Dto로 변환하여 반환한다.
+     * @param kakaoCode 사용자 고유 값
+     * @param imagePath 카카오 정보에 담겨져있는 프로필 사진의 경로
+     * @param email 카카오 정보에 담겨있는 사용자 이메일
+     * @return 카카오 고유 번호로 사용자 존재 여부를 확인을 하고 존재할 경우, 업데이트를 한다.
+     *         null이 반환(사용자가 없음)이 된다면, 회원가입을 한다.
+     *         마지막으로 Dto로 변환하여 반환한다.
      */
     @Transactional
     fun updateOrSave(
@@ -27,7 +27,7 @@ class UserService(
         imagePath: String,
         email: String
     ): UserDto.Response.UserDetail {
-        val user: User = userRepository.selectByKakaoCode(kakaoCode)?.let {
+        val user: User = userRepository.findByKakaoCode(kakaoCode)?.let {
             it.copy(
                 id = it.id,
                 kakaoCode = it.kakaoCode,
@@ -44,9 +44,8 @@ class UserService(
     }
 
     fun readOne(id: Long): UserDto.Response.UserDetail =
-        userRepository.selectById(id)?.let {
-            it.toDto()
-        } ?: throw BusinessException(USER_NOT_FOUND)
+        userRepository.findById(id).orElseThrow { throw BusinessException(USER_NOT_FOUND) }
+            .let { it.toDto() }
 
     fun readAll(): List<UserDto.Response.UserDetail> =
         userRepository.findAll().map { it.toDto() }

@@ -20,7 +20,7 @@ class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-        // 각 에러 코드에 맞는 곳으로 매핑해서 에러 내용을 f/e에게 전송
+        // 각 에러 코드에 맞는 곳으로 매핑해서 에러 내용을 브라우저에게 전송
         when (request.getAttribute("exception").toString()) {
             Exceptions.JWT_WRONG_TYPE_TOKEN.code -> setResponse(response, request, Exceptions.JWT_WRONG_TYPE_TOKEN)
             Exceptions.JWT_EXPIRED_TOKEN.code -> setResponse(response, request, Exceptions.JWT_EXPIRED_TOKEN)
@@ -32,8 +32,8 @@ class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
     }
 
     /**
-     * f/e에게 보내줄 에러 내용을 작성하는 메소드
-     * param : exception - Enum 형식으로 작성한 데이터 타입
+     * 브라우저에게 보내줄 에러 내용을 작성하는 메소드
+     * @param exceptions Enum 형식으로 작성한 데이터 타입
      */
     private fun setResponse(
         response: HttpServletResponse,

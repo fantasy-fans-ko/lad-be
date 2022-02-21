@@ -1,4 +1,4 @@
-package com.fantasy.ladbe.config
+package com.fantasy.ladbe.socket.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
@@ -8,9 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketBrokerConfig (
-//    val stompHandler: StompHandler
-    ) : WebSocketMessageBrokerConfigurer {
+class WebSocketBrokerConfig: WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws") // 웹 소켓 연결을 위한 주소입니다.
             .setAllowedOriginPatterns("*")
@@ -27,9 +25,4 @@ class WebSocketBrokerConfig (
         registry.setApplicationDestinationPrefixes("/draft")
         // 메시지의 가공이 필요할 때, 사용하는 prefix 입니다.
     }
-
-    //
-//    override fun configureClientOutboundChannel(registration: ChannelRegistration) {
-//        registration.interceptors(stompHandler)
-//    }
 }

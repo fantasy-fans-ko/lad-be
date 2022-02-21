@@ -42,7 +42,7 @@ class ScrapingService(
 
     /**
      * 파싱한 뒤 선수의 정보를 저장하는 함수
-     * param : elements - html 의 내용
+     * @param elements html 의 내용
      */
     private fun savePlayer(elements: Elements) {
         for (element: Element in elements) {
@@ -82,9 +82,9 @@ class ScrapingService(
 
     /**
      * 동명이인이 있는지 확인을 한 뒤, 있다면 이름 뒤에 팀을 붙여줌
-     * param : playerName - 선수 이름
-     *         teamName - 팀 이름
-     * return : 가공을 한 뒤, 반환
+     * @param playerName 선수 이름
+     * @param teamName 팀 이름
+     * @return 가공을 한 뒤, 문자열을 반환합니다.
      */
     private fun filterSameName(playerName: String, teamName: String): String {
         /**
@@ -110,8 +110,8 @@ class ScrapingService(
 
     /**
      * 선수의 상태를 확인하는 함수
-     * param : status - 선수의 현재 상태
-     * return : PlayerStatus Enum에 알맞는 값 반환
+     * @param status 선수의 현재 상태
+     * @return PlayerStatus Enum에 알맞는 값 반환
      */
     private fun playerStatusOf(status: String) =
         when (status) {

@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.model
 
 import javax.persistence.*
-import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY
 
 @Entity
@@ -9,10 +8,6 @@ import javax.persistence.GenerationType.IDENTITY
 data class Auction(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L,
-    @Column(name = "name")
-    val name: String? = "",
-    @ManyToOne(fetch = LAZY) @JoinColumn(name = "user_id")
-    val user: User
-) {
-
-}
+    val name: String = "",
+    val size: Int = 0,
+)

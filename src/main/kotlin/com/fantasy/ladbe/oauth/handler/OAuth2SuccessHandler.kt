@@ -1,69 +1,68 @@
 package com.fantasy.ladbe.oauth.handler
 
-import com.fantasy.ladbe.common.web.CommonApiResponse
 import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.oauth.jwt.JwtProvider
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import com.fantasy.ladbe.oauth.service.CookieUtils
+import com.fantasy.ladbe.oauth.service.HttpCookieOAuth2AuthorizationRequestRepository
+import com.fantasy.ladbe.oauth.service.REDIRECT_URI_PARAM_COOKIE_NAME
 import org.springframework.security.core.Authentication
-import org.springframework.security.web.WebAttributes
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
+import org.springframework.web.util.UriComponentsBuilder
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
 class OAuth2SuccessHandler(
     val jwtProvider: JwtProvider,
-) : AuthenticationSuccessHandler {
+    val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
+) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
         authentication: Authentication
     ) {
-        clearAuthenticationAttributes(request)
-
         val oAuth2Dto = UserDto.Response.OAuth2UserDetail().oAuth2ToDto(authentication)
+        val redirectUrl = determineTargetUrl(request, response, oAuth2Dto)
 
-        writeResponseData(response, oAuth2Dto)
+        if (response.isCommitted) { // 응답이 commit 되었는지의 여부를 확인
+            print("이미 커밋이 되었다. $redirectUrl")
+            return;
+        }
+
+        clearAuthenticationAttributes(request, response)
+        redirectStrategy.sendRedirect(request, response, redirectUrl)
+    }
+
+    /**
+     * 브라우저에게 받은 Redirect Uri 정보와 JWT 를 하나로 뭉치는 작업하는 메소드
+     * @param oAuth2Dto 커스텀한 OAuth2 의 정보들이 담겨있는 객체
+     */
+    protected fun determineTargetUrl(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        oAuth2Dto: UserDto.Response.OAuth2UserDetail
+    ): String {
+        val redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue)
+
+        if (!redirectUri.isPresent)
+            throw RuntimeException("익셉션입니다.")
+
+        val targetUrl = redirectUri.orElse(defaultTargetUrl)
+        val token = jwtProvider.create(oAuth2Dto)
+
+        return UriComponentsBuilder.fromUriString(targetUrl)
+            .queryParam("token", token).build()
+            .toUriString()
     }
 
     /**
      * 로그인 시도에 대한 세션을 초기화하는 메소드
      */
-    protected fun clearAuthenticationAttributes(request: HttpServletRequest) {
-        request.getSession(false).let {
-            it.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION)
-        }
-    }
-
-    /**
-     * f/e 쪽으로 전달할 데이터 작성
-     * param :  response - 응답에 대한 정보
-     *          oAuth2Dto - 편의를 위해 카카오 정보를 매핑해 생성한 Dto 객체
-     *          authentication - 권한 정보를 위해 넣었지만, oAuth2Dto 객체에 하나로 밀어넣어도 될 듯.
-     */
-    private fun writeResponseData(
-        response: HttpServletResponse,
-        oAuth2Dto: UserDto.Response.OAuth2UserDetail,
-    ) {
-        val accessToken: String = jwtProvider.create(oAuth2Dto) // jwt 생성
-
-        // f/e에게 보내줄 데이터 json 형식으로 작성
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("accessToken", accessToken)
-        jsonObject.addProperty("kakaoImagePath", oAuth2Dto.kakaoImagePath)
-        jsonObject.addProperty("kakaoName", oAuth2Dto.kakaoName)
-        jsonObject.addProperty("kakaoEmail", oAuth2Dto.kakaoEmail)
-
-        response.contentType = "application/json"
-        response.characterEncoding = "utf-8"
-        response.status = 200
-
-        val responseData = CommonApiResponse.success(jsonObject)
-        val gson = Gson().toJson(responseData)
-
-        response.writer.write(gson) // body 로 전송
+    protected fun clearAuthenticationAttributes(request: HttpServletRequest, response: HttpServletResponse) {
+        super.clearAuthenticationAttributes(request)
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response)
     }
 }

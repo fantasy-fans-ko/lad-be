@@ -9,7 +9,6 @@ class BidLogService (
     val bidLogRepository: BidLogRepository
     ) {
     fun save(
-        bidLogContents: BidLogDto.Request.LogContents
     ) {
 
     }
