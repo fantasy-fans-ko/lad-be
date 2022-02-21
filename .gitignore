@@ -38,3 +38,4 @@ out/
 
 src/main/resources/application-oauth.yml
 src/docker/volumes/
+src/main/kotlin/com/fantasy/ladbe/common/DataInitializer.kt
