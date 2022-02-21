@@ -38,4 +38,5 @@ out/
 
 src/main/resources/application-oauth.yml
 src/docker/volumes/
+## 초기 데이터 클래스 ##
 src/main/kotlin/com/fantasy/ladbe/common/DataInitializer.kt
