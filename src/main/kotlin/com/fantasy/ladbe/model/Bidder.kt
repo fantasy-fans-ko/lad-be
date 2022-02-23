@@ -11,7 +11,7 @@ data class Bidder(
     val id: Long = 0L,
     val nickname: String = "",
     @Column(name = "image_path")
-    val imageUrl : String = "",
+    val imagePath : String = "",
     val budget: Int = 0,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "auction_id")
     val auction: Auction,

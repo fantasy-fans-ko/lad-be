@@ -18,11 +18,11 @@ class UserController(
     val userService: UserService
 ) {
     @GetMapping
-    fun getPlayer(@RequestParam id: Long): ResponseEntity<CommonApiResponse> =
+    fun getUser(@RequestParam id: Long): ResponseEntity<CommonApiResponse> =
         ResponseEntity(success(userService.readOne(id)), HttpStatus.OK)
 
     @GetMapping("/all")
-    fun getAllPlayers(): ResponseEntity<CommonApiResponse> =
+    fun getAllUsers(): ResponseEntity<CommonApiResponse> =
         ResponseEntity(success(userService.readAll()), HttpStatus.OK)
 
 }

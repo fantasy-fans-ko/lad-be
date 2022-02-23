@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController
 class BidLogSocketController(
     val bidLogSocketService: BidLogSocketService
 ) {
-    @MessageMapping("/log/save")
-    @SendTo("/topic/log/history")
+    @MessageMapping("/bidLog/save")
+    @SendTo("/topic/bidLog/history")
     fun createBidLog(
         bidLogContent: BidLogSocketDto.Request.BidLogContent
     ): BidLogSocketDto.Response.BidLogContent {

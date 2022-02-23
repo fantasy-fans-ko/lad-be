@@ -16,6 +16,8 @@ class BidLogSocketService(
     val auctionRepository: AuctionRepository
 ) {
 
+    @Transactional
+    // bidder 엔티티의 값을 가져올 때, 연관관계인 auction을 다시 접근하기에 트랜젝션을 통해 1번만 접근하도록 변경
     fun saveBidLog(
         requestBidLog: BidLogSocketDto.Request.BidLogContent
     ): BidLogSocketDto.Response.BidLogContent {
@@ -33,12 +35,7 @@ class BidLogSocketService(
             auction = auction,
             player = player
         )
-        bidLogRepository.save(bidLog)
 
-        return BidLogSocketDto.Response.BidLogContent(
-            price = bidLog.price,
-            playerId = player.id,
-            bidderId = bidder.id,
-        )
+        return bidLogRepository.save(bidLog).toDto()
     }
 }

@@ -1,5 +1,6 @@
 package com.fantasy.ladbe.model
 
+import com.fantasy.ladbe.socket.dto.BidLogSocketDto
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY
@@ -18,4 +19,13 @@ data class BidLog(
     val player: Player,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "auction_id")
     val auction: Auction,
-)
+) {
+    fun toDto(): BidLogSocketDto.Response.BidLogContent {
+        return BidLogSocketDto.Response.BidLogContent(
+            price = price,
+            bidderId = bidder.id,
+            playerId = player.id,
+            time = 10
+        )
+    }
+}

@@ -1,6 +1,5 @@
 package com.fantasy.ladbe.controller
 
-import com.fantasy.ladbe.dto.BidLogDto
 import com.fantasy.ladbe.service.BidLogService
 import com.fantasy.ladbe.service.BidderService
 import org.springframework.messaging.handler.annotation.MessageMapping
