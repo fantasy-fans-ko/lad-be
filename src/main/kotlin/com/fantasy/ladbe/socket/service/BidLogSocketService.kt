@@ -36,6 +36,6 @@ class BidLogSocketService(
             player = player
         )
 
-        return bidLogRepository.save(bidLog).toDto()
+        return bidLogRepository.save(bidLog).toDtoWithUpdateTime()
     }
 }

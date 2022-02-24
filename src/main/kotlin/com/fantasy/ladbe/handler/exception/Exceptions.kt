@@ -16,7 +16,9 @@ enum class Exceptions(
     SERVICE_ERROR(HttpStatus.BAD_REQUEST, "COMMON001", "요청 처리에 문제가 있습니다."),
     INVALID_PARAM(HttpStatus.BAD_REQUEST, "COMMON002", "유효하지 않은 요청 데이터입니다."),
     INVALID_URI(HttpStatus.BAD_REQUEST, "COMMON003", "유효하지 않은 URI입니다."),
-    OAUTH2_REDIRECT_URL(HttpStatus.BAD_REQUEST, "COMMON004", "Redirect Url 의 정보가 담겨있지 않은 요청입니다."),
+    OAUTH2_REQUEST(HttpStatus.NOT_FOUND, "COMMON004", "OAuth의 요청이 존재하지 않습니다."),
+    OAUTH2_REDIRECT_URL(HttpStatus.NOT_FOUND, "COMMON005", "Redirect 가 지정되어 있지 않습니다."),
+    RESPONSE_NOT_COMMITTED(HttpStatus.BAD_REQUEST, "COMMON006", "응답이 커밋되지 않은 상태입니다."),
 
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER001", "존재하지 않은 사용자입니다."),

@@ -20,7 +20,7 @@ data class BidLog(
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "auction_id")
     val auction: Auction,
 ) {
-    fun toDto(): BidLogSocketDto.Response.BidLogContent {
+    fun toDtoWithUpdateTime(): BidLogSocketDto.Response.BidLogContent {
         return BidLogSocketDto.Response.BidLogContent(
             price = price,
             bidderId = bidder.id,

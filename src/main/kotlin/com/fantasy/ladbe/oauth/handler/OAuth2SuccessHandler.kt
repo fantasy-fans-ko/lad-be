@@ -1,6 +1,8 @@
 package com.fantasy.ladbe.oauth.handler
 
 import com.fantasy.ladbe.dto.UserDto
+import com.fantasy.ladbe.handler.exception.BusinessException
+import com.fantasy.ladbe.handler.exception.Exceptions
 import com.fantasy.ladbe.oauth.jwt.JwtProvider
 import com.fantasy.ladbe.oauth.service.CookieUtils
 import com.fantasy.ladbe.oauth.service.HttpCookieOAuth2AuthorizationRequestRepository
@@ -27,17 +29,21 @@ class OAuth2SuccessHandler(
         val oAuth2Dto = UserDto.Response.OAuth2UserDetail().oAuth2ToDto(authentication)
         val redirectUrl = determineTargetUrl(request, response, oAuth2Dto)
 
-        if (response.isCommitted) { // 응답이 commit 되었는지의 여부를 확인
-            print("이미 커밋이 되었다. $redirectUrl")
-            return;
-        }
+        /**
+         * isCommitted 메소드의 역할
+         * 응답이 이미 클라이언트에 커밋되었는지 여부를 확인합니다(응답 내용을 쓰기 위해 서블릿 출력 스트림이 열렸음을 의미합니다).
+         * 커밋된 응답은 HTTP 상태 및 헤더를 보유하며 수정할 수 없습니다. 헤더와 상태가 콘텐츠 자체보다 먼저 커밋되기 때문에
+         * 이 경우 응답 콘텐츠가 아직 작성되지 않았음을 주목하는 것도 중요합니다.
+        */
+        if (response.isCommitted)
+            throw BusinessException(Exceptions.RESPONSE_NOT_COMMITTED)
 
         clearAuthenticationAttributes(request, response)
         redirectStrategy.sendRedirect(request, response, redirectUrl)
     }
 
     /**
-     * 브라우저에게 받은 Redirect Uri 정보와 JWT 를 하나로 뭉치는 작업하는 메소드
+     * 브라우저에게 받은 Redirect Uri 정보와 JWT 를 하나로 뭉치는 작업을 하는 메소드
      * @param oAuth2Dto 커스텀한 OAuth2 의 정보들이 담겨있는 객체
      */
     protected fun determineTargetUrl(
@@ -48,7 +54,7 @@ class OAuth2SuccessHandler(
         val redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue)
 
         if (!redirectUri.isPresent)
-            throw RuntimeException("익셉션입니다.")
+            throw BusinessException(Exceptions.OAUTH2_REDIRECT_URL)
 
         val targetUrl = redirectUri.orElse(defaultTargetUrl)
         val token = jwtProvider.create(oAuth2Dto)

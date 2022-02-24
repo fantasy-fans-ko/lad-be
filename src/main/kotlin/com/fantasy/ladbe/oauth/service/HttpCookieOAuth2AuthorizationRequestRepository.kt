@@ -2,7 +2,6 @@ package com.fantasy.ladbe.oauth.service
 
 import com.fantasy.ladbe.handler.exception.BusinessException
 import com.fantasy.ladbe.handler.exception.Exceptions
-import com.fantasy.ladbe.handler.exception.Exceptions.OAUTH2_REDIRECT_URL
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
 import org.springframework.stereotype.Component
@@ -28,7 +27,7 @@ class HttpCookieOAuth2AuthorizationRequestRepository
     override fun loadAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest =
         CookieUtils.getCookie(request = request, name = OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME).map { cookie ->
             CookieUtils.deserialize(cookie, OAuth2AuthorizationRequest::class.java)
-        }.orElseThrow { throw BusinessException(OAUTH2_REDIRECT_URL) }
+        }.orElseThrow { throw BusinessException(Exceptions.OAUTH2_REQUEST) }
 
     /**
      * 쿠키를 저장하는 함수입니다.
@@ -66,9 +65,9 @@ class HttpCookieOAuth2AuthorizationRequestRepository
     /**
      * OAuth2 요청을 삭제하는 메소드
      */
-    override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
-        return this.loadAuthorizationRequest(request)
-    }
+    override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? =
+        this.loadAuthorizationRequest(request)
+
 
     /**
      * 쿠키를 삭제하는 메소드
