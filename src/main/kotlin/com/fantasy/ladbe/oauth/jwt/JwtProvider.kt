@@ -44,13 +44,12 @@ class JwtProvider(
 
     /**
      * Jwt 를 생성하는 메소드
-     * param :  oAuth2Dto - OAuth2User 를 맵핑한 Dto 의 정보가 들어있는 객체
-     * return : Jwt 를 반환한다.
+     * @param oAuth2Dto OAuth2User 를 맵핑한 Dto 의 정보가 들어있는 객체
+     * @return Jwt 를 반환한다.
      */
     fun create(
         oAuth2Dto: UserDto.Response.OAuth2UserDetail
     ): String {
-
         // 유효시간 설정
         val now: Long = Date().time
         val validity = Date(now + ACCESS_TOKEN_VALIDITY_IN_MILLISECONDS)
@@ -67,8 +66,8 @@ class JwtProvider(
 
     /**
      * 토큰을 파싱하는 메소드
-     * param : token - 요청 헤더에 담겨온 토큰 정보
-     * return : Authentication - 권한의 정보
+     * @param token 요청 헤더에 담겨온 토큰 정보
+     * @return Authentication - 권한의 정보
      */
     fun parseJwt(
         token: String
@@ -88,8 +87,8 @@ class JwtProvider(
 
     /**
      * 토큰의 유효성을 검사하는 메소드
-     * param : token - 요청 헤더에서 가져온 jwt 의 값
-     * return : 파싱했을 때, 아무 문제가 없다면 true 반환
+     * @param token 요청 헤더에서 가져온 jwt 의 값
+     * @return 파싱했을 때, 아무 문제가 없다면 true 반환
      *          문제가 생겼을 경우, AuthenticationEntryPoint 로 에러를 던져준다.
      */
     fun validateToken(token: String, request: HttpServletRequest): Boolean {

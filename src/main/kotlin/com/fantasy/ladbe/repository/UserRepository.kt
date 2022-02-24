@@ -4,4 +4,6 @@ import com.fantasy.ladbe.model.User
 import com.fantasy.ladbe.repository.custom.UserCustomRepository
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface UserRepository : JpaRepository<User, Long>, UserCustomRepository
+interface UserRepository : JpaRepository<User, Long>, UserCustomRepository {
+    fun findByKakaoCode(kakaoCode: Long) : User?
+}

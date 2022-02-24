@@ -8,6 +8,6 @@ import javax.persistence.GenerationType.IDENTITY
 data class Auction(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L,
-    @Column(name = "name", length = 36)
-    val name: String? = "",
+    val name: String = "",
+    val size: Int = 0,
 )

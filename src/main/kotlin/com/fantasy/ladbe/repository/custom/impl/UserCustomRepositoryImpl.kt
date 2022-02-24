@@ -16,17 +16,4 @@ class UserCustomRepositoryImpl(
     val queryFactory: JPAQueryFactory,
 ) : QuerydslRepositorySupport(User::class.java), UserCustomRepository {
 
-    override fun selectById(id: Long): User? {
-        return queryFactory
-            .selectFrom(user)
-            .where(user.id.eq(id))
-            .fetchOne()
-    }
-
-    override fun selectByKakaoCode(kakaoCode: Long): User? {
-        return queryFactory
-            .selectFrom(user)
-            .where(user.kakaoCode.eq(kakaoCode))
-            .fetchOne()
-    }
 }

@@ -1,11 +1,12 @@
 package com.fantasy.ladbe.config
 
 import com.fantasy.ladbe.oauth.handler.OAuth2SuccessHandler
-import com.fantasy.ladbe.oauth.jwt.JwtProvider
 import com.fantasy.ladbe.oauth.jwt.JwtAccessDeniedHandler
 import com.fantasy.ladbe.oauth.jwt.JwtAuthenticationEntryPoint
 import com.fantasy.ladbe.oauth.jwt.JwtFilter
+import com.fantasy.ladbe.oauth.jwt.JwtProvider
 import com.fantasy.ladbe.oauth.service.CustomOAuth2UserService
+import com.fantasy.ladbe.oauth.service.HttpCookieOAuth2AuthorizationRequestRepository
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -21,10 +22,13 @@ class SecurityConfig(
 
     val jwtProvider: JwtProvider,
     val authenticationEntrypoint: JwtAuthenticationEntryPoint,
-    val accessDeniedException: JwtAccessDeniedHandler
+    val accessDeniedException: JwtAccessDeniedHandler,
+
+    val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
+
         http
             .csrf().disable()
             .sessionManagement()
@@ -34,23 +38,28 @@ class SecurityConfig(
             .formLogin().disable()
             .authorizeRequests()
             .antMatchers( // 로그인은 누구나 접근 가능
-                "/oauth2/authorization/kakao"
+                "/oauth2/**", "/auth/**"
             ).permitAll()
             .antMatchers( // 이외의 경로는 권한을 가지고 있어야 함.
                 "/api/players/**"
             ).hasAnyRole("USER")
-            .antMatchers( // 추가적인 선수의 데이터 주입 방지를 위해 막아야함.
+            .antMatchers(
+                // 추가적인 선수의 데이터 주입 방지를 위해 막아야함.
                 "/htmlResources/**",
                 "/api/scraping/players",
-            ).hasAnyRole("ADMIN")
+            ).permitAll()
+//            .hasAnyRole("ADMIN")
             .anyRequest()
-            .authenticated()
+            .permitAll()
             .and()
             .exceptionHandling()
             .accessDeniedHandler(accessDeniedException)
             .authenticationEntryPoint(authenticationEntrypoint)
             .and()
             .oauth2Login()
+            .authorizationEndpoint() // 인가 엔드포인트 설정
+            .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+            .and()
             .userInfoEndpoint().userService(customOAuth2UserService)
             .and()
             .successHandler(oAuth2SuccessHandler)

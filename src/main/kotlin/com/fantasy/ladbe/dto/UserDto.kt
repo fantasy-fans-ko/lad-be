@@ -19,16 +19,7 @@ class UserDto {
             val kakaoCode: Long = 0L,
             val kakaoImagePath: String = "",
             val kakaoEmail: String = "",
-        ) {
-            fun entityToDto(user: User): UserDetail {
-                return UserDetail(
-                    id = user.id,
-                    kakaoCode = user.kakaoCode,
-                    kakaoImagePath = user.kakaoImagePath,
-                    kakaoEmail = user.kakaoEmail
-                )
-            }
-        }
+        )
 
         /**
          * OAuth2 로그인에 성공했을 때,
