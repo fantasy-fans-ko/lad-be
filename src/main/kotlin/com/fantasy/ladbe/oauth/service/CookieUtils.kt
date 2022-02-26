@@ -1,7 +1,9 @@
 package com.fantasy.ladbe.oauth.service
 
 import org.springframework.util.SerializationUtils
-import java.util.*
+import java.util.Base64
+import java.util.Optional
+
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -10,13 +12,12 @@ class CookieUtils {
     companion object {
         fun getCookie(
             request: HttpServletRequest,
-            name: String
+            name: String,
         ): Optional<Cookie> {
             val cookies = request.cookies
             if (!cookies.isNullOrEmpty()) {
                 for (cookie: Cookie in cookies) {
-                    if (cookie.name.equals(name))
-                        return Optional.of(cookie)
+                    if (cookie.name.equals(name)) return Optional.of(cookie)
                 }
             }
             return Optional.empty()
@@ -26,7 +27,7 @@ class CookieUtils {
             response: HttpServletResponse,
             name: String,
             value: String,
-            maxAge: Int
+            maxAge: Int,
         ) {
             val cookie = Cookie(name, value)
             cookie.path = "/"
@@ -38,7 +39,7 @@ class CookieUtils {
         fun deleteCookie(
             request: HttpServletRequest,
             response: HttpServletResponse,
-            name: String
+            name: String,
         ) {
             val cookies = request.cookies
             if (!cookies.isNullOrEmpty()) {
@@ -54,14 +55,12 @@ class CookieUtils {
         }
 
         fun serialize(
-            obj: Any
-        ): String = Base64.getUrlEncoder()
-            .encodeToString(SerializationUtils.serialize(obj))
+            obj: Any,
+        ): String = Base64.getUrlEncoder().encodeToString(SerializationUtils.serialize(obj))
 
         fun <T> deserialize(
             cookie: Cookie,
-            cls: Class<in T>
-        ): T =
-            cls.cast(SerializationUtils.deserialize(Base64.getUrlDecoder().decode(cookie.value))) as T
+            cls: Class<in T>,
+        ): T = cls.cast(SerializationUtils.deserialize(Base64.getUrlDecoder().decode(cookie.value))) as T
     }
 }

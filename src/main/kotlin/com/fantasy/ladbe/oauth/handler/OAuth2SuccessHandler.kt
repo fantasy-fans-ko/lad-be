@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class OAuth2SuccessHandler(
     val jwtProvider: JwtProvider,
-    val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
+    val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        authentication: Authentication
+        authentication: Authentication,
     ) {
         val oAuth2Dto = UserDto.Response.OAuth2UserDetail().oAuth2ToDto(authentication)
         val redirectUrl = determineTargetUrl(request, response, oAuth2Dto)
@@ -34,7 +34,7 @@ class OAuth2SuccessHandler(
          * 응답이 이미 클라이언트에 커밋되었는지 여부를 확인합니다(응답 내용을 쓰기 위해 서블릿 출력 스트림이 열렸음을 의미합니다).
          * 커밋된 응답은 HTTP 상태 및 헤더를 보유하며 수정할 수 없습니다. 헤더와 상태가 콘텐츠 자체보다 먼저 커밋되기 때문에
          * 이 경우 응답 콘텐츠가 아직 작성되지 않았음을 주목하는 것도 중요합니다.
-        */
+         */
         if (response.isCommitted)
             throw BusinessException(Exceptions.RESPONSE_NOT_COMMITTED)
 
@@ -49,7 +49,7 @@ class OAuth2SuccessHandler(
     protected fun determineTargetUrl(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        oAuth2Dto: UserDto.Response.OAuth2UserDetail
+        oAuth2Dto: UserDto.Response.OAuth2UserDetail,
     ): String {
         val redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue)
 

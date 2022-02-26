@@ -8,11 +8,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebSocketBrokerConfig: WebSocketMessageBrokerConfigurer {
+class WebSocketBrokerConfig : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws") // 웹 소켓 연결을 위한 주소입니다.
-            .setAllowedOriginPatterns("*")
-            .withSockJS()
+            .setAllowedOriginPatterns("*").withSockJS()
     }
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {

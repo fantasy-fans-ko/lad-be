@@ -76,7 +76,7 @@ class JwtProvider(
             .setSigningKey(key)
             .build().parseClaimsJws(token).body
 
-        val authorities: Collection<out GrantedAuthority> = claims["auth"].toString().split(",").map { authority ->
+        val authorities: Collection<GrantedAuthority> = claims["auth"].toString().split(",").map { authority ->
             SimpleGrantedAuthority(authority)
         }.toList()
 

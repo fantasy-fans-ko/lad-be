@@ -1,8 +1,15 @@
 package com.fantasy.ladbe.model
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
 import javax.persistence.FetchType.LAZY
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "bidders")
@@ -11,7 +18,7 @@ data class Bidder(
     val id: Long = 0L,
     val nickname: String = "",
     @Column(name = "image_path")
-    val imagePath : String = "",
+    val imagePath: String = "",
     val budget: Int = 0,
     @ManyToOne(fetch = LAZY) @JoinColumn(name = "auction_id")
     val auction: Auction,
