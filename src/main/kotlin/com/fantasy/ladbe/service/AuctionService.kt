@@ -4,10 +4,6 @@ import com.fantasy.ladbe.repository.AuctionRepository
 import org.springframework.stereotype.Service
 
 @Service
-class AuctionService (
-    val auctionRepository: AuctionRepository
-    ){
-    fun readOne(id: Long) {
-
-    }
-}
+class AuctionService(
+    val auctionRepository: AuctionRepository,
+)

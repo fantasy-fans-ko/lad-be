@@ -3,6 +3,7 @@ package com.fantasy.ladbe.common.web
 import com.fantasy.ladbe.handler.exception.Exceptions
 import java.time.Instant
 import javax.servlet.http.HttpServletRequest
+
 /**
  * @param errorCode 에러 코드
  * @param httpStatus 에러 상태에 대한 정보
@@ -17,14 +18,14 @@ data class CommonErrorResponse(
     val httpMethod: String = "",
     val message: String = "",
     val path: String = "",
-    val timestamp: Long = 0L
+    val timestamp: Long = 0L,
 ) {
     companion object {
         fun error(
             exceptions: Exceptions,
-            request: HttpServletRequest
+            request: HttpServletRequest,
         ): CommonErrorResponse =
-            CommonErrorResponse (
+            CommonErrorResponse(
                 errorCode = exceptions.code,
                 httpStatus = exceptions.status.toString(),
                 httpMethod = request.method,

@@ -4,11 +4,6 @@ import com.fantasy.ladbe.repository.BidLogRepository
 import org.springframework.stereotype.Service
 
 @Service
-class BidLogService (
-    val bidLogRepository: BidLogRepository
-    ) {
-    fun save(
-    ) {
-
-    }
-}
+class BidLogService(
+    val bidLogRepository: BidLogRepository,
+)
