@@ -9,16 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306
-        env:
-          MYSQL_USER: ladbe
-          MYSQL_PASSWORD: ladbe
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: ladbe
 
     steps:
       - name: Checkout
@@ -35,4 +25,15 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+        shell: bash
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: Show Current Time
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
