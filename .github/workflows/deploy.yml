@@ -3,7 +3,7 @@ name: lad-be-webservice
 on:
   push:
     branches:
-      - master # Trigger -> Master Branch
+      - feature/cicd # TODO: Trigger -> Master Branch
   workflow_dispatch: # 수동 실행 가능
 
 jobs:
