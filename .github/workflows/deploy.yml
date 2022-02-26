@@ -39,7 +39,7 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: SPRING_PROFILES_ACTIVE=[test] ./gradlew clean build
+        run: SPRING_PROFILES_ACTIVE=[test] ./gradlew build -x test
         shell: bash
 
       - name: Get current time
