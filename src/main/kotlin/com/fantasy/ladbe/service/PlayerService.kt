@@ -3,7 +3,6 @@ package com.fantasy.ladbe.service
 import com.fantasy.ladbe.dto.PlayerDto
 import com.fantasy.ladbe.handler.exception.BusinessException
 import com.fantasy.ladbe.handler.exception.Exceptions.PLAYER_NOT_FOUND
-import com.fantasy.ladbe.handler.exception.Exceptions.USER_NOT_FOUND
 import com.fantasy.ladbe.repository.PlayerRepository
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
@@ -20,7 +19,7 @@ class PlayerService(
         playerRepository.findAll().map { it.toDto() }
 
     fun readPage(
-        request: PlayerDto.Request.PlayerPage
+        request: PlayerDto.Request.PlayerPage,
     ): Page<PlayerDto.Response.PlayerDetail> =
         playerRepository.selectPlayersByPaging(request).map {
             it.toDto()

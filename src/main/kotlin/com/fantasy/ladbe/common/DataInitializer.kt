@@ -62,7 +62,8 @@ class DataInitializer(
 
     private fun createBidder() {
         if (bidderRepository.findById(1L).isEmpty) {
-            val bidder = Bidder(1L,
+            val bidder = Bidder(
+                1L,
                 "jupaka",
                 "FAKE_IMAGE_PATH",
                 200,

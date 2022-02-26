@@ -17,8 +17,7 @@ const val COOKIE_EXPIRE_SECONDS: Int = 100
  * 브라우저가 요청한 Redirect Url 의 정보를 쿠키로 저장시켜 응답을 받은 뒤에도 값을 유지시켜주는 클래스
  */
 @Component
-class HttpCookieOAuth2AuthorizationRequestRepository
-    : AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
+class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
     /**
      * 저장되어 있는 쿠키를, 역직렬화를 통해 OAuth2AuthorizationRequest 클래스로 변환하고 반환해줍니다.
@@ -36,12 +35,12 @@ class HttpCookieOAuth2AuthorizationRequestRepository
     override fun saveAuthorizationRequest(
         authorizationRequest: OAuth2AuthorizationRequest,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ) {
         if (authorizationRequest == null) {
             CookieUtils.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
             CookieUtils.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME)
-            return;
+            return
         }
 
         CookieUtils.addCookie(
@@ -67,7 +66,6 @@ class HttpCookieOAuth2AuthorizationRequestRepository
      */
     override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? =
         this.loadAuthorizationRequest(request)
-
 
     /**
      * 쿠키를 삭제하는 메소드

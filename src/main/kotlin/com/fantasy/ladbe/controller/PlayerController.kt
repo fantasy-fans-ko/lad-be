@@ -29,9 +29,10 @@ class PlayerController(
         ResponseEntity(success(playerService.readAll()), HttpStatus.OK)
 
     @GetMapping("/page")
-    fun getPlayersByPaging(@Valid @RequestBody request: PlayerDto.Request.PlayerPage): ResponseEntity<CommonApiResponse> {
-        val readPage = playerService.readPage(request)
-        val pageDto = PageDto(page = readPage, content = readPage.content)
-        return ResponseEntity(success(pageDto), HttpStatus.OK)
-    }
+    fun getPlayersByPaging(@Valid @RequestBody request: PlayerDto.Request.PlayerPage):
+        ResponseEntity<CommonApiResponse> {
+            val readPage = playerService.readPage(request)
+            val pageDto = PageDto(page = readPage, content = readPage.content)
+            return ResponseEntity(success(pageDto), HttpStatus.OK)
+        }
 }

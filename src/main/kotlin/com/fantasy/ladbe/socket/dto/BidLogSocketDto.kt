@@ -8,7 +8,6 @@ class BidLogSocketDto {
             val price: Int = 0,
             val auctionId: Long = 0L,
         )
-
     }
     class Response {
         data class BidLogContent(

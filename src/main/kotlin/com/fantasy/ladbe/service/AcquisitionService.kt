@@ -5,7 +5,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class AcquisitionService(
-    val acquisitionRepository: PlayerAcquisitionRepository
-) {
-
-}
+    val acquisitionRepository: PlayerAcquisitionRepository,
+)
