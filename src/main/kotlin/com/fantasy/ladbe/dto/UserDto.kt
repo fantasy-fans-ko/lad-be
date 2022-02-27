@@ -25,8 +25,8 @@ class UserDto {
          * 로그인한 사용자에 대한 정보를 원할하게 사용하기 위한 Dto
          */
         data class OAuth2UserDetail(
+            val kakaoCode: Long = 0L,
             val kakaoImagePath: String = "",
-            val kakaoEmail: String = "",
             val kakaoName: String = "",
             val role: String = "",
         ) {
@@ -36,8 +36,8 @@ class UserDto {
                 val profile: Map<String, Any> = kakaoAccount["profile"] as Map<String, Any>
 
                 return OAuth2UserDetail(
+                    kakaoCode = oAuth2User.attributes["id"].toString().toLong(),
                     kakaoName = profile["nickname"].toString(),
-                    kakaoEmail = kakaoAccount["email"].toString(),
                     kakaoImagePath = profile["thumbnail_image_url"].toString(),
                     role = authentication.authorities.stream().map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(",")) // 권한의 정보를 가져와 ","를 기준으로 문자열로 나열함

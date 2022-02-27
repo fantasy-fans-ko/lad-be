@@ -2,12 +2,12 @@ package com.fantasy.ladbe.oauth.dto
 
 /**
  * OAuth2 로그인을 했을 때, 해당 서버에서 받아와 매핑할 객체
- * attributes : 서버에서 받아온 사용자 정보들
- * nameAttributeKey : 소셜 로그인에서 사용하는 기본 키에 대한 정보
- * name : 사용자 이름
- * email : 사용자 이메일
- * imagePath : 사용자 프사 경로
- * code : 카카오 서버에서 주어지는 사용자 고유 번호
+ * @param attributes 서버에서 받아온 사용자 정보들
+ * @param nameAttributeKey 소셜 로그인에서 사용하는 기본 키에 대한 정보
+ * @param name 사용자 이름
+ * @param email 사용자 이메일
+ * @param imagePath 사용자 프사 경로
+ * @param code 카카오 서버에서 주어지는 사용자 고유 번호
  */
 class OAuthAttributes(
     val attributes: Map<String, Any> = emptyMap(),
@@ -21,10 +21,10 @@ class OAuthAttributes(
     companion object {
         /**
          * 소셜 로그인을 구분
-         * param : registerId - 소셜 로그인의 종류
-         *         usernameAttributeKey - 사용자의 Attribute의 Key의 이름 (kakao = id)
-         *         attributes - 사용자의 정보를 받아올 정보
-         * return : registerId에 의해 각 소셜 로그인 함수로 접근.
+         * @param registerId 소셜 로그인의 종류
+         * @param usernameAttributeKey 사용자의 Attribute의 Key의 이름 (kakao = id)
+         * @param attributes 사용자의 정보를 받아올 정보
+         * @return : registerId에 의해 각 소셜 로그인 함수로 접근.
          *          registerId의 값이 없다면 빈 객체를 반환
          */
         fun of(
@@ -40,9 +40,9 @@ class OAuthAttributes(
 
         /**
          * 카카오에서 받아온 정보들을 원하는 데이터들을 추추해온다.
-         * param : usernameAttributeKey - 사용자의 Attribute의 Key의 이름 (kakao = id)
-         *         attributes - 카카오에서 받은 사용자 정보
-         * return : this
+         * @param usernameAttributeKey 사용자의 Attribute의 Key의 이름 (kakao = id)
+         * @param attributes 카카오에서 받은 사용자 정보
+         * @return OAuthAttributes 객체
          */
         fun ofKakao(
             usernameAttributeKey: String,

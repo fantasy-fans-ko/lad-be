@@ -57,7 +57,7 @@ class JwtProvider(
         return Jwts.builder()
             .setSubject(oAuth2Dto.kakaoName) // 카카오톡에서 사용하고 있는 이름
             .claim("auth", oAuth2Dto.role) // 권한의 대한 정보
-            .claim("email", oAuth2Dto.kakaoEmail) // 이메일 정보
+            .claim("code", oAuth2Dto.kakaoCode) // 카카오 고유 번호에 대한 정보
             .setIssuedAt(Date(now)) // 현재 시간
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity) // 기한 설정
@@ -80,7 +80,7 @@ class JwtProvider(
             SimpleGrantedAuthority(authority)
         }.toList()
 
-        val principal: UserDetails = User(claims["email"].toString(), "", authorities)
+        val principal: UserDetails = User(claims["code"].toString(), "", authorities)
 
         return UsernamePasswordAuthenticationToken(principal, "", authorities)
     }

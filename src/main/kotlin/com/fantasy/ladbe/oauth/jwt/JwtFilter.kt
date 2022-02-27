@@ -28,7 +28,7 @@ class JwtFilter(
      * 헤더에서 JWT 를 가져온 뒤, 유효성 검토를 위해 prefix 를 제거하는 작업을 하는 메소드
      * @param request 브라우저에게 받은 요청 정보
      * @return 헤더에 Authorization 이름으로 값이 있는지 확인한다.
-     *         값이 없다면, "" -> 빈 문자열을 반환하고 null 예외처리 발생
+     *         값이 없다면, "" -> 빈 문자열을 그대로 반환
      *         값이 있다면, 빈 값이 들어있는지 확인하고 Bearer 로 시작하는지 확인한다. 그리고 있다면 prefix 를 제거하고 반환
      */
     private fun resolveToken(request: HttpServletRequest): String {
@@ -41,7 +41,5 @@ class JwtFilter(
         }
 
         return token
-//        request.setAttribute("exception", JWT_NULL_TOKEN.code)
-//        throw NullPointerException()
     }
 }

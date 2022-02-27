@@ -23,6 +23,7 @@ enum class Exceptions(
     // User
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER001", "존재하지 않은 사용자입니다."),
     PERMISSION_DENIED(HttpStatus.UNAUTHORIZED, "USER002", "권한이 없는 사용자입니다."),
+    USER_NOT_LOGIN(HttpStatus.NOT_FOUND, "USER003", "로그인이 되어있지 않는 사용자입니다."),
 
     // Jwt
     JWT_WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "JWT001", "잘못된 JWT의 서명입니다."),

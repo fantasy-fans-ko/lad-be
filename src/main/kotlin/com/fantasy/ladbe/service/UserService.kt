@@ -3,8 +3,10 @@ package com.fantasy.ladbe.service
 import com.fantasy.ladbe.dto.UserDto
 import com.fantasy.ladbe.handler.exception.BusinessException
 import com.fantasy.ladbe.handler.exception.Exceptions.USER_NOT_FOUND
+import com.fantasy.ladbe.handler.exception.Exceptions.USER_NOT_LOGIN
 import com.fantasy.ladbe.model.User
 import com.fantasy.ladbe.repository.UserRepository
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,7 +29,13 @@ class UserService(
         imagePath: String,
         email: String
     ): UserDto.Response.UserDetail {
-        val user: User = userRepository.findByKakaoCode(kakaoCode)?.let {
+        val user: User = userRepository.findByKakaoCode(kakaoCode).orElseGet {
+            User(
+                kakaoCode = kakaoCode,
+                kakaoEmail = email,
+                kakaoImagePath = imagePath
+            )
+        }.let {
             it.copy(
                 id = it.id,
                 kakaoCode = it.kakaoCode,
@@ -35,18 +43,45 @@ class UserService(
                 kakaoEmail = email
             )
         }
-            ?: User(
-                kakaoCode = kakaoCode,
-                kakaoEmail = email,
-                kakaoImagePath = imagePath
-            )
         return userRepository.save(user).toDto()
     }
 
-    fun readOne(id: Long): UserDto.Response.UserDetail =
+    /**
+     * 사용자 고유 번호를 통해, 사용자 정보 가져오기
+     * @param id 사용자가 가지고 있는 고유 번호 (유니크)
+     * @return UserDetail DTO 로 변환하여 반환합니다.
+     */
+    fun readOneById(id: Long): UserDto.Response.UserDetail =
         userRepository.findById(id).orElseThrow { throw BusinessException(USER_NOT_FOUND) }
             .let { it.toDto() }
 
+    /**
+     * 카카오 고유 번호를 통해, 사용자 정보 가져오기
+     * @param kakaoCode 사용자가 가지고 있는 카카오 고유 번호
+     * @return UserDetail DTO 로 변환하여 반환합니다.
+     */
+    fun readOneByKakaoCode(kakaoCode: Long): UserDto.Response.UserDetail =
+        userRepository.findByKakaoCode(kakaoCode).orElseThrow { throw BusinessException(USER_NOT_FOUND) }
+            .let { it.toDto() }
+
+    /**
+     * Spring Security 를 활용하여 로그인한 사용자의 정보 가져오기
+     * 만약, 로그인의 정보가 없다면, 예외처리
+     * @return 사용자 정보를 가지고 있는 객체를 반환해줍니다.
+     */
+    fun readOneByContext(): UserDto.Response.UserDetail {
+        val principal = SecurityContextHolder.getContext().authentication.principal
+            as org.springframework.security.core.userdetails.User
+
+        if (principal.equals("anonymousUser"))
+            throw BusinessException(USER_NOT_LOGIN)
+
+        return readOneByKakaoCode(principal.username.toLong())
+    }
+
+    /**
+     * 모든 사용자 정보를 가져오기
+     */
     fun readAll(): List<UserDto.Response.UserDetail> =
         userRepository.findAll().map { it.toDto() }
 }
