@@ -70,13 +70,12 @@ class UserService(
      * @return 사용자 정보를 가지고 있는 객체를 반환해줍니다.
      */
     fun readOneByContext(): UserDto.Response.UserDetail {
-        val principal = SecurityContextHolder.getContext().authentication.principal
-            as org.springframework.security.core.userdetails.User
+        val authentication = SecurityContextHolder.getContext().authentication
 
-        if (principal.equals("anonymousUser"))
+        if (authentication.principal.equals("anonymousUser"))
             throw BusinessException(USER_NOT_LOGIN)
 
-        return readOneByKakaoCode(principal.username.toLong())
+        return readOneByKakaoCode(authentication.name.toLong())
     }
 
     /**
