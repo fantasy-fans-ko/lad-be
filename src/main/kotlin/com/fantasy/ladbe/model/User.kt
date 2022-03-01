@@ -23,7 +23,6 @@ data class User(
     fun toDto(): UserDto.Response.UserDetail {
         return UserDto.Response.UserDetail(
             id = id,
-            kakaoCode = kakaoCode,
             kakaoImagePath = kakaoImagePath,
             kakaoEmail = kakaoEmail
         )

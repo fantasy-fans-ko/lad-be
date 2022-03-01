@@ -15,7 +15,6 @@ class UserDto {
     class Response {
         data class UserDetail(
             val id: Long = 0L,
-            val kakaoCode: Long = 0L,
             val kakaoImagePath: String = "",
             val kakaoEmail: String = "",
         )
