@@ -1,8 +1,8 @@
 package com.fantasy.ladbe.oauth.jwt
 
-import com.fantasy.ladbe.common.web.CommonErrorResponse.Companion.error
+import com.fantasy.ladbe.dto.ErrorDto.Companion.toDto
+import com.fantasy.ladbe.common.web.CommonApiResponse.Companion.error
 import com.fantasy.ladbe.handler.exception.Exceptions
-import com.google.gson.Gson
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
@@ -43,9 +43,7 @@ class JwtAuthenticationEntryPoint : AuthenticationEntryPoint {
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
 
-        val gson = Gson().toJson(
-            error(exceptions = exceptions, request = request)
-        )
-        response.writer.write(gson)
+        val data = error(errorDto = toDto(request, exceptions))
+        // TODO : 이 응답 내용을 어떻게 브라우저에게 내려줄 것인가.
     }
 }

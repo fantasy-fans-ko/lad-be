@@ -1,6 +1,7 @@
 package com.fantasy.ladbe.handler.advice
 
-import com.fantasy.ladbe.common.web.CommonErrorResponse
+import com.fantasy.ladbe.common.web.CommonApiResponse
+import com.fantasy.ladbe.dto.ErrorDto
 import com.fantasy.ladbe.handler.exception.BusinessException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -15,12 +16,13 @@ class GlobalExceptionAdvice : ResponseEntityExceptionHandler() {
     fun businessExceptionHandler(
         businessException: BusinessException,
         request: HttpServletRequest
-    ): ResponseEntity<CommonErrorResponse> =
+    ): ResponseEntity<CommonApiResponse> =
         ResponseEntity(
-            CommonErrorResponse.error(
-                exceptions = businessException.exceptions,
-                request = request
-            ),
-            businessException.exceptions.status
+            CommonApiResponse.error(
+                errorDto = ErrorDto.toDto(
+                    request = request,
+                    exceptions = businessException.exceptions
+                )
+            ), businessException.exceptions.status
         )
 }
