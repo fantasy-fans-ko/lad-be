@@ -41,8 +41,10 @@ class SecurityConfig(
                 "/oauth2/**", "/auth/**", "/api/users/auth"
             ).permitAll()
             .antMatchers( // 이외의 경로는 권한을 가지고 있어야 함.
-                "/api/players/**"
-            ).hasAnyRole("USER")
+                "/api/players/**",
+                "/api/bidders/**"
+            ).permitAll()
+//            .hasAnyRole("USER")
             .antMatchers(
                 // 추가적인 선수의 데이터 주입 방지를 위해 막아야함.
                 "/htmlResources/**",

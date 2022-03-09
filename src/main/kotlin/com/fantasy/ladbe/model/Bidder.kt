@@ -1,5 +1,6 @@
 package com.fantasy.ladbe.model
 
+import com.fantasy.ladbe.dto.BidderDto
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType.LAZY
@@ -24,4 +25,13 @@ data class Bidder(
     val auction: Auction,
     @OneToOne(fetch = LAZY) @JoinColumn(name = "user_id")
     val user: User,
-)
+) {
+    fun toDto(): BidderDto.Response.BidderDetail {
+        return BidderDto.Response.BidderDetail(
+            id = id,
+            nickname = nickname,
+            imagePath = imagePath,
+            budget = budget,
+        )
+    }
+}
