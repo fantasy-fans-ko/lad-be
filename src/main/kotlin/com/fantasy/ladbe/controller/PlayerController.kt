@@ -6,6 +6,7 @@ import com.fantasy.ladbe.common.web.CommonApiResponse
 import com.fantasy.ladbe.common.web.CommonApiResponse.Companion.success
 import com.fantasy.ladbe.dto.PlayerDto
 import com.fantasy.ladbe.service.PlayerService
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,13 +32,19 @@ class PlayerController(
 
     @GetMapping("/page")
     fun getPlayersByPaging(
-        @RequestParam(required = true, name = "page") page: Int,
-        @RequestParam(required = false, name = "size") size: Int?,
-        @RequestParam(required = false, name = "sort") sort: Map<String, Direction>?,
+        @RequestParam param: Map<Any, Any>
     ): ResponseEntity<CommonApiResponse> {
-        val request = PlayerDto.Request.PlayerPage(PageParam(page, size, sort))
+        val sort = jacksonObjectMapper().readValue(param["sort"].toString(), Map::class.java) as Map<String, Direction>
+        val request = PlayerDto.Request.PlayerPage(PageParam(Integer.parseInt(param["page"].toString()), Integer.parseInt(param["size"].toString()), sort))
         val readPage = playerService.readPage(request)
         val pageDto = PageDto(page = readPage, content = readPage.content)
         return ResponseEntity(success(pageDto), HttpStatus.OK)
     }
+
+//    @GetMapping("/position")
+//    fun getPlayersByPosition(
+//        @RequestParam(required = true, name = "position") position: String
+//    ): ResponseEntity<CommonApiResponse> {
+//
+//    }
 }

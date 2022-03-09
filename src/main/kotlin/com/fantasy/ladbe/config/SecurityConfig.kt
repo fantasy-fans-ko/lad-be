@@ -42,7 +42,8 @@ class SecurityConfig(
             ).permitAll()
             .antMatchers( // 이외의 경로는 권한을 가지고 있어야 함.
                 "/api/players/**",
-                "/api/bidders/**"
+                "/api/bidders/**",
+                "/player/**"
             ).permitAll()
 //            .hasAnyRole("USER")
             .antMatchers(
