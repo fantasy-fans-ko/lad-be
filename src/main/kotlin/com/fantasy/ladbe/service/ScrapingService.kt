@@ -13,8 +13,8 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 
-const val DEFAULT_HTML_URL = "http://localhost:8080/htmlResources/"
-const val DEFAULT_IMAGE_URL = "http://localhost:8080/player/"
+const val DEFAULT_HTML_PATH = "http://localhost:8080/htmlResources/"
+const val DEFAULT_IMAGE_PATH = "http://localhost:8080/player/"
 
 // const val DEFAULT_IMAGE_LOCAL_PATH = "/Users/juyohan/Downloads/players2/"
 const val DEFAULT_IMAGE_RESOURCES_PATH = "playerImages/"
@@ -33,7 +33,7 @@ class ScrapingService(
      */
     fun iterativeApproachToHtml() {
         for (html: Resource in htmls) { // 여러 html들 중에서 하나씩 접근
-            val document: Document = Jsoup.connect(DEFAULT_HTML_URL + html.filename).get() // 해당 html에 접근한다.
+            val document: Document = Jsoup.connect(DEFAULT_HTML_PATH + html.filename).get() // 해당 html에 접근한다.
             val elements: Elements = document.select("tbody tr") // 한 줄을 가져옴
 
             savePlayer(elements)
@@ -42,7 +42,7 @@ class ScrapingService(
 
     /**
      * 파싱한 뒤 선수의 정보를 저장하는 함수
-     * param : elements - html 의 내용
+     * @param elements html 의 내용
      */
     private fun savePlayer(elements: Elements) {
         for (element: Element in elements) {
@@ -51,7 +51,7 @@ class ScrapingService(
             // 선수의 팀과 포지션
             val teamAndPosition: List<String> = element.select("td.player span.Fz-xxs")
                 .text().split(" ").toList()
-            val imageUrl = filterSameName(playerName, teamAndPosition.elementAt(0)) // 동명이인 체크
+            val imagePath = filterSameName(playerName, teamAndPosition.elementAt(0)) // 동명이인 체크
             // 스탯의 값을 분할한 뒤, 값이 없는 경우(-) 0으로 변경
             val statList: List<String> = element.select("td.Ta-end").text().split(" ")
                 .map { str: String -> str.replace("-", "0") }
@@ -73,7 +73,7 @@ class ScrapingService(
                 turnOvers = statList.elementAt(16).toInt(),
                 tripleDoubles = statList.elementAt(17).toInt(),
                 status = playerStatusOf(status),
-                imageUrl = "$DEFAULT_IMAGE_URL$imageUrl.png"
+                imagePath = "$DEFAULT_IMAGE_PATH$imagePath.png"
             ).let {
                 playerRepository.save(it)
             }
@@ -82,9 +82,9 @@ class ScrapingService(
 
     /**
      * 동명이인이 있는지 확인을 한 뒤, 있다면 이름 뒤에 팀을 붙여줌
-     * param : playerName - 선수 이름
-     *         teamName - 팀 이름
-     * return : 가공을 한 뒤, 반환
+     * @param playerName 선수 이름
+     * @param teamName 팀 이름
+     * @return 가공을 한 뒤, 문자열을 반환합니다.
      */
     private fun filterSameName(playerName: String, teamName: String): String {
         /**
@@ -110,8 +110,8 @@ class ScrapingService(
 
     /**
      * 선수의 상태를 확인하는 함수
-     * param : status - 선수의 현재 상태
-     * return : PlayerStatus Enum에 알맞는 값 반환
+     * @param status 선수의 현재 상태
+     * @return PlayerStatus Enum에 알맞는 값 반환
      */
     private fun playerStatusOf(status: String) =
         when (status) {

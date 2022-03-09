@@ -8,9 +8,11 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
-internal class PlayerRepositoryTest @Autowired constructor(
+@ActiveProfiles("test")
+class PlayerRepositoryTest @Autowired constructor(
     val playerRepository: PlayerRepository
 ) {
     @BeforeEach
@@ -29,9 +31,9 @@ internal class PlayerRepositoryTest @Autowired constructor(
         // given
 
         // when
-        val list = playerRepository.selectAll()
+        val list = playerRepository.findAll()
 
         // then
-        assertEquals(list?.size, 2)
+        assertEquals(list.size, 2)
     }
 }

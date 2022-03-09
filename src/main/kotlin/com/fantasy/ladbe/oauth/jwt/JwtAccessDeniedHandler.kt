@@ -1,8 +1,8 @@
 package com.fantasy.ladbe.oauth.jwt
 
-import com.fantasy.ladbe.common.web.ErrorResponse
+import com.fantasy.ladbe.common.web.CommonApiResponse.Companion.error
+import com.fantasy.ladbe.dto.ErrorDto.Companion.toDto
 import com.fantasy.ladbe.handler.exception.Exceptions.PERMISSION_DENIED
-import com.google.gson.Gson
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.stereotype.Component
@@ -20,13 +20,10 @@ class JwtAccessDeniedHandler : AccessDeniedHandler {
         response: HttpServletResponse,
         accessDeniedException: AccessDeniedException
     ) {
-        val errorResponse = ErrorResponse().toErrorResponse(request, PERMISSION_DENIED)
-
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
 
-        val gson = Gson().toJson(errorResponse)
-        response.writer.write(gson)
-
+        error(errorDto = toDto(request, PERMISSION_DENIED))
+        // TODO : 이 응답 내용을 어떻게 브라우저에게 내려줄 것인가.
     }
 }

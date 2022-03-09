@@ -1,13 +1,16 @@
 package com.fantasy.ladbe.model
 
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "auctions")
 data class Auction(
     @Id @GeneratedValue(strategy = IDENTITY)
     val id: Long = 0L,
-    @Column(name = "name", length = 36)
-    val name: String? = "",
+    val name: String = "",
+    val size: Int = 0,
 )

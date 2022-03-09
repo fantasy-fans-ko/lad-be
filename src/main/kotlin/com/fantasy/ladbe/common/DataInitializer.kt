@@ -1,6 +1,10 @@
 package com.fantasy.ladbe.common
 
+import com.fantasy.ladbe.model.Auction
+import com.fantasy.ladbe.model.Bidder
 import com.fantasy.ladbe.model.User
+import com.fantasy.ladbe.repository.AuctionRepository
+import com.fantasy.ladbe.repository.BidderRepository
 import com.fantasy.ladbe.repository.PlayerRepository
 import com.fantasy.ladbe.repository.UserRepository
 import com.fantasy.ladbe.service.ScrapingService
@@ -15,15 +19,18 @@ class DataInitializer(
     val env: Environment,
     val playerRepository: PlayerRepository,
     val userRepository: UserRepository,
+    val auctionRepository: AuctionRepository,
+    val bidderRepository: BidderRepository,
     val scrapingService: ScrapingService,
     @Value("\${spring.jpa.hibernate.ddl-auto}") val ddl: String,
 ) : CommandLineRunner {
-
     @Transactional
     override fun run(vararg args: String?) {
         if (env.activeProfiles.any { it == "local" } && ddl == "none") {
             createTestUser()
             createPlayer()
+            createAuction()
+            createBidder()
         }
     }
 
@@ -43,6 +50,27 @@ class DataInitializer(
     private fun createPlayer() {
         if (playerRepository.findById(1L).isEmpty) {
             scrapingService.iterativeApproachToHtml()
+        }
+    }
+
+    private fun createAuction() {
+        if (auctionRepository.findById(1L).isEmpty) {
+            val auction = Auction(1L, "기부 왕", 6)
+            auctionRepository.save(auction)
+        }
+    }
+
+    private fun createBidder() {
+        if (bidderRepository.findById(1L).isEmpty) {
+            val bidder = Bidder(
+                1L,
+                "jupaka",
+                "FAKE_IMAGE_PATH",
+                200,
+                auctionRepository.findById(1L).get(),
+                userRepository.findById(1L).get()
+            )
+            bidderRepository.save(bidder)
         }
     }
 }

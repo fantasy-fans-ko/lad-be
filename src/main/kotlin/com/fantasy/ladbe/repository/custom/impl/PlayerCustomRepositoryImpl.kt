@@ -23,19 +23,6 @@ class PlayerCustomRepositoryImpl(
     val queryFactory: JPAQueryFactory,
 ) : QuerydslRepositorySupport(Player::class.java), PlayerCustomRepository {
 
-    override fun selectById(id: Long): Player? {
-        return queryFactory
-            .selectFrom(player)
-            .where(player.id.eq(id))
-            .fetchOne()
-    }
-
-    override fun selectAll(): List<Player> {
-        return queryFactory
-            .selectFrom(player)
-            .fetch()
-    }
-
     override fun selectPlayersByPaging(playerPage: PlayerDto.Request.PlayerPage): Page<Player> {
 
         val pageRequest: PageRequest = playerPage.pageable.getPageRequest()

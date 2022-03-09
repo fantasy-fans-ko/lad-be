@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.dto
 
 import com.fantasy.ladbe.common.dto.PageParam
-import com.fantasy.ladbe.model.Player
 import com.fantasy.ladbe.model.enumeration.PlayerStatus
 
 class PlayerDto {
@@ -28,32 +27,9 @@ class PlayerDto {
             val tripleDoubles: Int = 0,
             val teamName: String = "",
             val status: PlayerStatus = PlayerStatus.HEALTHY,
-            val imageUrl: String = "",
+            val imagePath: String = "",
             val rankPre: Int = 0,
             val rankCurrent: Int = 0,
-        ) {
-            fun entityToDto(player: Player): PlayerDetail {
-                return PlayerDetail(
-                    id = player.id,
-                    name = player.name,
-                    position = player.position,
-                    threePct = player.threePct,
-                    ftPct = player.ftPct,
-                    fgPct = player.fgPct,
-                    points = player.points,
-                    rebounds = player.rebounds,
-                    assists = player.assists,
-                    steals = player.steals,
-                    blocks = player.blocks,
-                    turnOvers = player.turnOvers,
-                    tripleDoubles = player.tripleDoubles,
-                    teamName = player.teamName,
-                    status = player.status,
-                    imageUrl = player.imageUrl,
-                    rankPre = player.rankPre,
-                    rankCurrent = player.rankCurrent
-                )
-            }
-        }
+        )
     }
 }
