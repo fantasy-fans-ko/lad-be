@@ -38,11 +38,7 @@ class SecurityConfig(
             .formLogin().disable()
             .authorizeRequests()
             .antMatchers( // 로그인은 누구나 접근 가능
-<<<<<<< HEAD
-                "/oauth2/authorization/**"
-=======
                 "/oauth2/**", "/auth/**", "/api/users/auth"
->>>>>>> feature/list-api
             ).permitAll()
             .antMatchers( // 이외의 경로는 권한을 가지고 있어야 함.
                 "/api/players/**",
