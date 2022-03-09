@@ -16,16 +16,16 @@ class KakaoLoginTest @Autowired constructor(
 
     @Test
     fun jwtTest() {
-        val dummyOAuth2Detail: UserDto.Response.OAuth2UserDetail = UserDto.Response.OAuth2UserDetail(
-            kakaoImagePath = "",
-            kakaoEmail = "dygks8557@nate.com",
-            kakaoName = "요한",
-            role = "ROLE_USER"
-        )
-
-        val dummyJwt = jwtProvider.create(dummyOAuth2Detail)
-        val authentication: Authentication = jwtProvider.parseJwt(dummyJwt)
-
-        println(authentication)
+//        val dummyOAuth2Detail: UserDto.Response.OAuth2UserDetail = UserDto.Response.OAuth2UserDetail(
+//            kakaoImagePath = "",
+//            kakaoEmail = "dygks8557@nate.com",
+//            kakaoName = "요한",
+//            role = "ROLE_USER"
+//        )
+//
+//        val dummyJwt = jwtProvider.create(dummyOAuth2Detail)
+//        val authentication: Authentication = jwtProvider.parseJwt(dummyJwt)
+//
+//        println(authentication)
     }
 }
