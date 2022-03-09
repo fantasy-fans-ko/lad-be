@@ -6,8 +6,8 @@ import org.springframework.data.domain.Sort.Direction
 import org.springframework.util.ObjectUtils
 
 class PageParam(
-    val page: Int = 1,
-    val size: Int? = null,
+    private val page: Int = 1,
+    private val size: Int? = null,
     val sort: Map<String, Direction>? = null,
 ) {
     fun getPageRequest(): PageRequest {

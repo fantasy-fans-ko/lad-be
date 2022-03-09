@@ -23,19 +23,21 @@ class PlayerController(
 ) {
 
     @GetMapping
-    fun getPlayer(@RequestParam @Valid id: Long) =
-        ResponseEntity(success(playerService.readOne(id)), HttpStatus.OK)
+    fun getPlayer(@RequestParam @Valid id: Long) = ResponseEntity(success(playerService.readOne(id)), HttpStatus.OK)
 
     @GetMapping("/all")
-    fun getAllPlayers() =
-        ResponseEntity(success(playerService.readAll()), HttpStatus.OK)
+    fun getAllPlayers() = ResponseEntity(success(playerService.readAll()), HttpStatus.OK)
 
     @GetMapping("/page")
     fun getPlayersByPaging(
         @RequestParam param: Map<Any, Any>
     ): ResponseEntity<CommonApiResponse> {
-        val sort = jacksonObjectMapper().readValue(param["sort"].toString(), Map::class.java) as Map<String, Direction>
-        val request = PlayerDto.Request.PlayerPage(PageParam(Integer.parseInt(param["page"].toString()), Integer.parseInt(param["size"].toString()), sort))
+        val sort = jacksonObjectMapper().readValue(param["sort"].toString(), Map::class.java) as Map<String, Direction>?
+        val request = PlayerDto.Request.PlayerPage(
+            PageParam(
+                Integer.parseInt(param["page"].toString()), param["size"]?.let { Integer.parseInt(it.toString()) }?: null, sort
+            )
+        )
         val readPage = playerService.readPage(request)
         val pageDto = PageDto(page = readPage, content = readPage.content)
         return ResponseEntity(success(pageDto), HttpStatus.OK)
