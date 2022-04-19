@@ -21,8 +21,9 @@ class GlobalExceptionAdvice : ResponseEntityExceptionHandler() {
             CommonApiResponse.error(
                 errorDto = ErrorDto.toDto(
                     request = request,
-                    exceptions = businessException.exceptions
+                    exceptions = businessException.exceptions,
                 )
-            ), businessException.exceptions.status
+            ),
+            businessException.exceptions.status
         )
 }

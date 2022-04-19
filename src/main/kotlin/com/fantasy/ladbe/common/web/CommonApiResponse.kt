@@ -1,7 +1,6 @@
 package com.fantasy.ladbe.common.web
 
 import com.fantasy.ladbe.dto.ErrorDto
-import com.fantasy.ladbe.handler.exception.Exceptions
 import java.time.Instant
 
 data class CommonApiResponse(

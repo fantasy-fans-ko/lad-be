@@ -35,7 +35,9 @@ class PlayerController(
         val sort = jacksonObjectMapper().readValue(param["sort"].toString(), Map::class.java) as Map<String, Direction>?
         val request = PlayerDto.Request.PlayerPage(
             PageParam(
-                Integer.parseInt(param["page"].toString()), param["size"]?.let { Integer.parseInt(it.toString()) }?: null, sort
+                Integer.parseInt(param["page"].toString()),
+                param["size"]?.let { Integer.parseInt(it.toString()) } ?: null,
+                sort
             )
         )
         val readPage = playerService.readPage(request)

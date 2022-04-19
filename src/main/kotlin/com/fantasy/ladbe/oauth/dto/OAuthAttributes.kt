@@ -65,7 +65,7 @@ class OAuthAttributes(
         fun ofYahoo(
             usernameAttributeKey: String,
             attributes: Map<String, Any>
-        ) : OAuthAttributes {
+        ): OAuthAttributes {
             println("sdfsdfsdf")
             return OAuthAttributes()
         }
