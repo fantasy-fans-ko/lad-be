@@ -14,6 +14,7 @@ class WebMvcConfig : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:3000")
+//            .allowedOrigins("http://3.36.75.11:3000")
             .allowedHeaders("Authorization")
     }
 
@@ -22,8 +23,8 @@ class WebMvcConfig : WebMvcConfigurer {
         registry.addResourceHandler("/htmlResources/**")
             .addResourceLocations("classpath:/htmlResources/")
         // image 접근
-        registry.addResourceHandler("/player/**")
+//        registry.addResourceHandler("/player/**")
 //            .addResourceLocations("file:///Users/juyohan/Downloads/players2/") // local로 접근
-            .addResourceLocations("classpath:/playerImages/") // class resource로 접근
+//            .addResourceLocations("classpath:/playerImages/") // class resource로 접근
     }
 }
